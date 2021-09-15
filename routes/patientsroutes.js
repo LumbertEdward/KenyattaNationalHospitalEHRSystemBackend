@@ -1,5 +1,6 @@
 var express = require('express');
-const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport } = require('../controllers/patientcontroller');
+const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill } = require('../controllers/patientcontroller');
+const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -20,9 +21,36 @@ router.get('/queue/:department_id/all', GetPatientsInQueueBYDepartment);
 router.get('/queue/:patient_id/remove', RemovePatientFromQueue);
 
 //Billing
-router.post('/billing/pay', urlencodedParser, PayBill);
+router.post('/billing/set', urlencodedParser, SetBill);
+router.get('/billing/pay', PayBill);
 router.get('/billing/:patient_id/total', GetBillTotal);
 router.get('/billing/:service_id/department', GetServiceDepartment);
 router.get('/billing/:patient_id/report', GetBillReport);
+
+//treatment
+router.post('/metrics/add', urlencodedParser, RecordMetrics);
+router.get('/metrics/:patient_id', GetMetrics);
+router.post('/treatment/add', urlencodedParser, WriteTreatment);
+router.get('/treatment/summary', GetTreatmentSummary);
+router.post('/treatment/labrequest', urlencodedParser, MakeLabRequests);
+router.get('/treatment/report', GetTreatmentReport);
+
+//lab
+router.get('/lab/tests/cost', GetTestCost);
+router.post('/lab/tests/results/add', urlencodedParser, RecordTestResults);
+router.get('/lab/tests/report', GetLabTestReport);
+router.get('/lab/tests/requests', GetRequestedLabTests);
+
+//medicalhistory
+router.get('/treatment/:patient_id/history', GetTreatmentHistorySummary);
+router.get('/treatment/:patient_id/visit', VisitSummary);
+
+//prescription
+router.post('/drugs/prescribe', urlencodedParser, PrescribeDrugs);
+router.get('/drugs/issue', IssueDrugs);
+router.get('/drugs/prescribed/all', GetPrescribedDrugs);
+router.get('/drugs/prescribed/patient', GetPrescribedDrugsByPatient);
+router.get('/drugs/dispensingreport', GetDrugDispensingReport);
+router.get('/drugs/dispensingreport/patient', GetDrugDispensingReportByPatient);
 
 module.exports = router;

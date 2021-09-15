@@ -22,7 +22,8 @@ class Appointments{
             appointment_created_date: appointment_created_date,
             patient_id: patient_id,
             doctor_id: doctor_id,
-            department_id: department_id
+            department_id: department_id,
+            status: "pending"
         }
 
         let details;
@@ -48,7 +49,7 @@ class Appointments{
         try {
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").findOne({_id: appointment_id});
-            if (foundList != null) {
+            if (foundList) {
                 details = foundList.appointment_due_date;
             }
             else{
@@ -66,7 +67,7 @@ class Appointments{
         try {
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").findOne({_id: appointment_id});
-            if (foundList != null) {
+            if (foundList) {
                 details = foundList;
             }
             else{
@@ -90,6 +91,24 @@ class Appointments{
             }
             else{
                 details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async approveAppointmentByDoctor(appointment_id){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").updateOne({_id: appointment_id}, {$set: {status: "approved"}});
+            if (foundList.modifiedCount > 0) {
+                details = true;
+            }
+            else{
+                details = false;
             }
 
         } catch (error) {

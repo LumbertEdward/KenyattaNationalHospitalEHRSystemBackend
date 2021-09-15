@@ -7,6 +7,6 @@ var urlencodedParser = express.urlencoded({ extended: false });
 router.get('/login', LoginStaff);
 router.post('/register', urlencodedParser, RegisterStaff);
 router.post('/profile/edit', urlencodedParser, EditStaffDetails);
-router.get('/staff/delete', DeleteStaffById);
+router.get('/delete', DeleteStaffById);
 
 module.exports = router;

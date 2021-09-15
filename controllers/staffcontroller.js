@@ -9,6 +9,7 @@ exports.RegisterStaff = async function(req, res) {
         var firstname = req.body.firstname;
         var lastname = req.body.lastname;
         var username = req.body.username;
+        var gender = req.body.gender;
         var qualification = req.body.qalification;
         var department_id = req.body.department_id;
         var country = req.body.country;
@@ -17,28 +18,37 @@ exports.RegisterStaff = async function(req, res) {
         var residence = req.body.residence;
         var joining_date = req.body.joining_date;
         var password = req.body.password;
+        var added_on = req.body.added_on;
+        var added_by = req.body.added_by;
 
-        if (errors.isEmpty) {
-            var result = await Staff.registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, profile, password);
-            if (result == true) {
-                res.json({"message": "Inserted Successfully"});
+        if (errors.isEmpty) {           
+           const check = await Staff.checkStaffUsername(username);
+            if (check == true) {
+                var result = await Staff.registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, password, added_on, added_by, gender);
+                if (result == true) {
+                    res.json({"message": "Inserted Successfully"});
+                }
+                else{
+                    res.json({"message": "Not Inserted"});
+                }
             }
             else{
-                res.json({"message": "Not Inserted"});
+                res.json({"message": "Username Exists"});
             }
+
         }
         else{
-            res.json({error: errors.array()});
-            console.log(errors);
+
         }
-        
-    } 
-    catch (error) {
+
+    }
+    catch(error){
         console.log(error);
     }
+    
 }
 
-exports.LoginStaff = function(req, res, next) {
+exports.LoginStaff = async function(req, res, next) {
     try {
         var errors = validationResult(req);
         var username = req.query.username;
@@ -46,7 +56,7 @@ exports.LoginStaff = function(req, res, next) {
 
         if (errors.isEmpty) {
             const result = await Staff.loginStaff(username, password);
-            if (result.username != null) {
+            if (result) {
                 res.json({"message": "Found", "data": result});
             }
             else{

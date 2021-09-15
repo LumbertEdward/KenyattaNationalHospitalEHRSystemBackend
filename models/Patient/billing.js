@@ -15,11 +15,16 @@ class Billing{
         }
     }
 
-    async payBill(patient_id, service_cost, service_department){
+    async setBill(treatment_id, patient_id, service_name, service_cost, service_department, added_on, added_by, status = "false"){
         const details = {
+            treatment_id: treatment_id,
             patient_id: patient_id,
+            service_name: service_name,
             service_cost: service_cost,
-            service_department: service_department
+            service_department: service_department,
+            added_on: added_on,
+            added_by: added_by,
+            status: status
         }
 
         let result;
@@ -40,11 +45,34 @@ class Billing{
         return result;
     }
 
+    async payBill(bill_id, status = "true"){
+        const details = {
+            status: status
+        }
+
+        let result;
+
+        try {
+            await this.connectToDb();
+            const outPut = await this.client.db("KNHDatabase").collection("billing").updateOne({_id: bill_id}, {$set: details});
+            if (outPut.modifiedCount > 0) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
     async getBillTotal(patient_id){
         let result;
         try {
             await this.connectToDb();
-            const outPut = await this.client.db("KNHDatabase").collection("billing").find({patient_id: patient_id}).sort({last_review: -1});
+            const outPut = await this.client.db("KNHDatabase").collection("billing").find({patient_id: patient_id, status: "false"}).sort({last_review: -1});
             const data = await outPut.toArray();
             if (data.length > 0) {
                 result = data;

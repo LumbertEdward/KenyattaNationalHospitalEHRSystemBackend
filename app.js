@@ -9,6 +9,7 @@ var multer = require('multer');
 var usersRouter = require('./routes/users');
 var patientsRouter = require('./routes/patientsroutes');
 var staffroutes = require('./routes/staffroutes');
+var appointmentsroutes = require('./routes/appointmentsroutes');
 
 var app = express();
 
@@ -21,14 +22,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-//app.use('/public/images/', express.static('./public/images'));
+app.use('/public/images/', express.static('./public/images'));
 app.use(cors());
 app.use(logger('dev'));
 
 app.use('/', usersRouter);
 app.use('/KNH/patient', patientsRouter);
 app.use('/KNH/staff', staffroutes);
-app.use('/KNH/appointments', staffroutes);
+app.use('/KNH/appointments', appointmentsroutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

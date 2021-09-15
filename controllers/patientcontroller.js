@@ -67,7 +67,7 @@ exports.RegisterNextOfKin = async function(req, res) {
     }
 }
 
-exports.EditPatientProfile = function(req, res) {
+exports.EditPatientProfile = async function(req, res) {
     try {
         var errors = validationResult(req);
         var firstName = req.body.firstname;
@@ -81,7 +81,7 @@ exports.EditPatientProfile = function(req, res) {
         var village = req.body.village;
         var telephone = req.body.telephone;
         if (errors.isEmpty) {
-            var result = await patient.EditPatientProfile(firstName, lastName, age, gender, identityNo, country, county, sub_county, village, telephone);
+            const result = await patient.EditPatientProfile(firstName, lastName, age, gender, identityNo, country, county, sub_county, village, telephone);
             if (result == true) {
                 res.json({"message": "Edited Successfully"});
             }
@@ -95,7 +95,7 @@ exports.EditPatientProfile = function(req, res) {
         }
         
     } catch (error) {
-        
+        console.log(error);
     }
 }
 
@@ -287,17 +287,38 @@ exports.RemovePatientFromQueue = async function(req, res) {
 
 //Billing
 
+exports.SetBill = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var patient_Id = req.body.patient_id;
+        var service_cost = req.body.service_cost;
+        var service_department = req.body.service_department;
+        var added_on = req.body.added_on;
+        var added_by = req.body.added_by;
+
+        if (errors.isEmpty) {
+            const result = await Bill.setBill(patient_Id, service_cost, service_department, added_on, added_by);
+            if (result == true) {
+                res.json({"message": "Added to Bill"});
+            }
+            else{
+                res.json({"message": "Not Added"});
+            }
+        }
+    } catch (error) {
+        console.log(errors);
+    }
+}
+
 exports.PayBill = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var patient_Id = req.post.patient_id;
-        var service_cost = req.post.service_cost;
-        var service_department = req.post.service_department;
+        var bill_id = req.query.bill_id;
 
         if (errors.isEmpty) {
-            const result = await Bill.payBill(patient_Id, service_cost, service_department);
+            const result = await Bill.payBill(bill_id);
             if (result == true) {
-                res.json({"message": "Added to Bill"});
+                res.json({"message": "Bill Payed"});
             }
             else{
                 res.json({"message": "Not Added"});

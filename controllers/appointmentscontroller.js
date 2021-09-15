@@ -5,12 +5,12 @@ const Appointment = new AppointmentsConnection(uri);
 exports.AddAppointment = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var appointment_reason = req.body.appointment_reason,
-        var appointment_due_date = req.body.appointment_due_date,
-        var appointment_created_date = req.body.appointment_created_date,
-        var patient_id = req.body.patient_id,
-        var doctor_id = req.body.doctor_id,
-        var department_id = req.body.department_id
+        var appointment_reason = req.body.appointment_reason;
+        var appointment_due_date = req.body.appointment_due_date;
+        var appointment_created_date = req.body.appointment_created_date;
+        var patient_id = req.body.patient_id;
+        var doctor_id = req.body.doctor_id;
+        var department_id = req.body.department_id; 
 
         if (errors.isEmpty) {
             var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id);
@@ -19,6 +19,31 @@ exports.AddAppointment = async function(req, res) {
             }
             else{
                 res.json({"message": "Not Successful"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.ApproveAppointmentByDoctor = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var appointment_id = req.query.appointment_id;
+         
+        if (errors.isEmpty) {
+            var result = await Appointment.approveAppointmentByDoctor(appointment_id);
+            if (result == true) {
+                res.json({"message": "Appointment Approved Successfully"});
+            }
+            else{
+                res.json({"message": "Not Approved"});
             }
         }
         else{
