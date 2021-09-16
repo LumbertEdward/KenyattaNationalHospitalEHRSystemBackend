@@ -56,7 +56,7 @@ exports.LoginStaff = async function(req, res, next) {
 
         if (errors.isEmpty) {
             const result = await Staff.loginStaff(username, password);
-            if (result) {
+            if (result != {}) {
                 res.json({"message": "Found", "data": result});
             }
             else{
