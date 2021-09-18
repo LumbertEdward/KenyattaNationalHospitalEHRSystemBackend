@@ -146,7 +146,7 @@ exports.AddNotifications = async function(req, res, next) {
         var category = req.query.category;
         var receiver_username = req.query.receiver_username;
         var today = new Date();
-        var time = today.getHours() + ":" + today.getMinutes;
+        var time = today.getHours() + ":" + today.getMinutes();
 
         if (errors.isEmpty) {
             const result = await Staff.addNotification(receiver_username, sender_username, category, message, time);
