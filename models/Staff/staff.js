@@ -229,7 +229,7 @@ class Staff{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("notifications").find({_id: id}).sort({last_review: -1});
+            var foundList = await this.client.db("KNHDatabase").collection("notifications").find({receiver_username: id}).sort({last_review: -1});
             var data = await foundList.toArray();
             if (data.length > 0) {
                 details = data;
