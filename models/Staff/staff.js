@@ -38,7 +38,8 @@ class Staff{
             password: encryptedpassword,
             added_on: added_on,
             added_by: added_by,
-            token: ""
+            token: "",
+            status: "pending"
         }
 
         
