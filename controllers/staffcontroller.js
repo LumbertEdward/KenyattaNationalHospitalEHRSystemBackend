@@ -123,3 +123,61 @@ exports.DeleteStaffById = async function(req, res, next) {
         console.log(error);
     }
 }
+
+exports.AllStaff = async function(req, res, next) {
+    try {
+        var result = await Staff.allStaff();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "Not Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.AddNotifications = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var message = req.query.message;
+        var sender_id = req.query.sender_id;
+        var category = req.query.category;
+        var receiver_id = req.query.receiver_id;
+        var today = new Date();
+        var time = today.getHours() + ":" + today.getMinutes;
+
+        if (errors.isEmpty) {
+            const result = await Staff.addNotification(receiver_id, sender_id, category, message, time);
+            if (result == true) {
+                res.json({"message": "Added"});
+            }
+            else{
+                res.json({"message": "Not Added"});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
+exports.GetNotifications = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        if (errors.isEmpty) {
+            var id = req.query.id;
+            var result = await Staff.getNotificationById(id);
+            if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}

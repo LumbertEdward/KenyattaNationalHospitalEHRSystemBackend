@@ -175,6 +175,74 @@ class Staff{
         }
         return details;
     }
+
+    async allStaff(){
+        let result;
+        try {
+            await this.connectToDb();
+            const status = await this.client.db("KNHDatabase").collection("staff").find().sort({last_review: -1});
+            const data = await status.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    //notifications
+
+    async addNotification(receiver_id, sender_id, category, message, time, status = "unread"){
+        const details = {
+            receiver_id: receiver_id,
+            sender_id: sender_id,
+            category: category,
+            message: message,
+            time: time,
+            status: status
+        }
+
+        let result;
+
+        try {
+            await this.connectToDb();
+            const outPut = await this.client.db("KNHDatabase").collection("notifications").insertOne(details);
+            if (outPut.insertedId != null) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async getNotificationById(id){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("notifications").find({_id: id}).sort({last_review: -1});
+            var data = await foundList.toArray();
+            if (data.length > 0) {
+                details = data;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
 }
 
 module.exports = Staff;
