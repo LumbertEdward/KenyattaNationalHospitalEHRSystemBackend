@@ -197,10 +197,10 @@ class Staff{
 
     //notifications
 
-    async addNotification(receiver_id, sender_id, category, message, time, status = "unread"){
+    async addNotification(receiver_username, sender_username, category, message, time, status = "unread"){
         const details = {
-            receiver_id: receiver_id,
-            sender_id: sender_id,
+            receiver_username: receiver_username,
+            sender_username: sender_username,
             category: category,
             message: message,
             time: time,

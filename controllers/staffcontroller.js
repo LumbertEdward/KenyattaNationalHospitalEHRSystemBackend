@@ -142,14 +142,14 @@ exports.AddNotifications = async function(req, res, next) {
     try {
         var errors = validationResult(req);
         var message = req.query.message;
-        var sender_id = req.query.sender_id;
+        var sender_username = req.query.sender_username;
         var category = req.query.category;
-        var receiver_id = req.query.receiver_id;
+        var receiver_username = req.query.receiver_username;
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes;
 
         if (errors.isEmpty) {
-            const result = await Staff.addNotification(receiver_id, sender_id, category, message, time);
+            const result = await Staff.addNotification(receiver_username, sender_username, category, message, time);
             if (result == true) {
                 res.json({"message": "Added"});
             }
