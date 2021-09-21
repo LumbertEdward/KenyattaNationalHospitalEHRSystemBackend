@@ -105,6 +105,7 @@ exports.EditStaffDetails = async function(req, res) {
 
 exports.ActivateAccount = async function(req, res) {
     try {
+        var errors = validationResult(req);
         var staff_id = req.params.staff_id;
 
         if (errors.isEmpty) {
