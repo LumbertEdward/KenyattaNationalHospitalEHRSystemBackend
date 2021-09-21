@@ -103,6 +103,30 @@ exports.EditStaffDetails = async function(req, res) {
     }
 }
 
+exports.ActivateAccount = async function(req, res) {
+    try {
+        var staff_id = req.params.staff_id;
+
+        if (errors.isEmpty) {
+            var result = await Staff.activateAccount(staff_id);
+            if (result == true) {
+                res.json({"message": "Activated"});
+            }
+            else{
+                res.json({"message": "Not Activated"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
 exports.DeleteStaffById = async function(req, res, next) {
     try {
         var errors = validationResult(req);

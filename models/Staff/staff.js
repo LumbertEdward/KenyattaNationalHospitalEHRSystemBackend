@@ -196,6 +196,29 @@ class Staff{
         return result;
     }
 
+    async activateAccount(staff_id){
+        const staffDetails = {
+            status: "activated"
+        }
+
+        let details;
+        try {
+            await this.connectToDb();
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({_id: staff_id}, {$set: staffDetails});
+            if (pat.modifiedCount > 0) {
+                details = true;
+            }
+            else{
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
     //notifications
 
     async addNotification(receiver_username, sender_username, category, message, time, status = "unread"){
