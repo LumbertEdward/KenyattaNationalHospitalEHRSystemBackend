@@ -106,10 +106,10 @@ exports.EditStaffDetails = async function(req, res) {
 exports.ActivateAccount = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var staff_id = req.params.staff_id;
+        var username = req.query.username;
 
         if (errors.isEmpty) {
-            var result = await Staff.activateAccount(staff_id);
+            var result = await Staff.activateAccount(username);
             if (result == true) {
                 res.json({"message": "Activated"});
             }

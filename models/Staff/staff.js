@@ -196,19 +196,17 @@ class Staff{
         return result;
     }
 
-    async activateAccount(staff_id){
-        const staffDetails = {
-            status: "activated"
-        }
-
+    async activateAccount(username){
         let details;
         try {
             await this.connectToDb();
-            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({_id: staff_id}, {$set: staffDetails});
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: {status: "activated"}});
             if (pat.modifiedCount > 0) {
+                console.log("success");
                 details = true;
             }
             else{
+                console.log("Not");
                 details = false;
             }
 

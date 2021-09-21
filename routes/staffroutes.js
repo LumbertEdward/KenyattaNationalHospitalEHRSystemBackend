@@ -9,7 +9,7 @@ router.post('/register', urlencodedParser, RegisterStaff); //admin
 router.post('/profile/edit', urlencodedParser, EditStaffDetails);
 router.get('/delete', DeleteStaffById);
 router.get('/all', AllStaff);
-router.get('/:staff_id/activate', ActivateAccount);
+router.get('/activate', ActivateAccount);
 
 //notifications
 router.get('/addNotification', AddNotifications);
