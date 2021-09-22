@@ -134,7 +134,7 @@ exports.SuspendAccount = async function(req, res) {
         var username = req.query.username;
 
         if (errors.isEmpty) {
-            var result = await Staff.activateAccount(username);
+            var result = await Staff.suspendAccount(username);
             if (result == true) {
                 res.json({"message": "Suspended"});
             }
@@ -159,7 +159,7 @@ exports.DeactivateAccount = async function(req, res) {
         var username = req.query.username;
 
         if (errors.isEmpty) {
-            var result = await Staff.activateAccount(username);
+            var result = await Staff.deactivateAccount(username);
             if (result == true) {
                 res.json({"message": "Deactivated"});
             }
