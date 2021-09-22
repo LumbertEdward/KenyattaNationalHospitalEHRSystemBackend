@@ -128,6 +128,56 @@ exports.ActivateAccount = async function(req, res) {
     }
 }
 
+exports.SuspendAccount = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var username = req.query.username;
+
+        if (errors.isEmpty) {
+            var result = await Staff.activateAccount(username);
+            if (result == true) {
+                res.json({"message": "Suspended"});
+            }
+            else{
+                res.json({"message": "Not Suspended"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.DeactivateAccount = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var username = req.query.username;
+
+        if (errors.isEmpty) {
+            var result = await Staff.activateAccount(username);
+            if (result == true) {
+                res.json({"message": "Deactivated"});
+            }
+            else{
+                res.json({"message": "Not Deactivated"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
 exports.DeleteStaffById = async function(req, res, next) {
     try {
         var errors = validationResult(req);

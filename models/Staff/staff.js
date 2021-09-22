@@ -217,6 +217,48 @@ class Staff{
         return details;
     }
 
+    async suspendAccount(username){
+        let details;
+        try {
+            await this.connectToDb();
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: {status: "suspended"}});
+            if (pat.modifiedCount > 0) {
+                console.log("success");
+                details = true;
+            }
+            else{
+                console.log("Not");
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
+    async deactivateAccount(username){
+        let details;
+        try {
+            await this.connectToDb();
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: {status: "pending"}});
+            if (pat.modifiedCount > 0) {
+                console.log("success");
+                details = true;
+            }
+            else{
+                console.log("Not");
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
     //notifications
 
     async addNotification(receiver_username, sender_username, category, message, time, status = "unread"){
