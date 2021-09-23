@@ -77,7 +77,7 @@ exports.EditStaffDetails = async function(req, res) {
         var residence = req.query.residence;
 
         if (errors.isEmpty) {
-            var result = await Staff.EditStaffProfile(staff_id, firstname, lastname, residence);
+            var result = await Staff.EditStaffProfile(username, firstname, lastname, residence);
             if (result == true) {
                 res.json({"message": "Updated Successfully"});
             }
