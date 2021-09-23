@@ -164,7 +164,7 @@ class Staff{
                 details = true;
             }
             else{
-                details = true;
+                details = false;
             }
 
         } catch (error) {
