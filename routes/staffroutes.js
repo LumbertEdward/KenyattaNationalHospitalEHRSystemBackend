@@ -6,7 +6,7 @@ var urlencodedParser = express.urlencoded({ extended: false });
 //authentication
 router.get('/login', LoginStaff);
 router.post('/register', urlencodedParser, RegisterStaff); //admin
-router.post('/profile/edit', urlencodedParser, EditStaffDetails);
+router.get('/profile/edit', EditStaffDetails);
 router.get('/delete', DeleteStaffById);
 router.get('/all', AllStaff);
 //accounts
