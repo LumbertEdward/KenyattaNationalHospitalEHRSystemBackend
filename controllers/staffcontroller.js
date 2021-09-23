@@ -71,20 +71,13 @@ exports.LoginStaff = async function(req, res, next) {
 exports.EditStaffDetails = async function(req, res) {
     try {
         var errors = validationResult(req);
+        var staff_id = req.body.staff_id;
         var firstname = req.body.firstname;
         var lastname = req.body.lastname;
-        var username = req.body.username;
-        var qualification = req.body.qalification;
-        var department_id = req.body.department_id;
-        var country = req.body.country;
-        var county = req.body.county;
-        var access_level = req.body.access_level;
         var residence = req.body.residence;
-        var joining_date = req.body.joining_date;
-        var password = req.body.password;
 
         if (errors.isEmpty) {
-            var result = await Staff.EditStaffProfile(firstname, lastname, qualification, department_id, country, county, residence);
+            var result = await Staff.EditStaffProfile(staff_id, firstname, lastname, residence);
             if (result == true) {
                 res.json({"message": "Updated Successfully"});
             }

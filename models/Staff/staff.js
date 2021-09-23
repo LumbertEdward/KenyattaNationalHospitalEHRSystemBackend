@@ -130,14 +130,10 @@ class Staff{
         return details;
     }
 
-    async EditStaffProfile(staff_id, firstname, lastname, qualification, department_id, country, county, residence){
+    async EditStaffProfile(staff_id, firstname, lastname, residence){
         const staffDetails = {
             firstname: firstname,
             lastname: lastname,
-            qualification: qualification,
-            department_id: department_id,
-            country: country,
-            county: county,
             residence: residence,
         }
 
