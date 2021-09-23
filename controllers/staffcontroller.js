@@ -68,6 +68,25 @@ exports.LoginStaff = async function(req, res, next) {
     }
 }
 
+exports.GetStaffDetails = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var username = req.query.username;
+
+        if (errors.isEmpty) {
+            const result = await Staff.getStaffDetails(username);
+            if (result._id != null) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.EditStaffDetails = async function(req, res) {
     try {
         var errors = validationResult(req);

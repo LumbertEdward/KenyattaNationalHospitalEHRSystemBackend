@@ -130,6 +130,29 @@ class Staff{
         return details;
     }
 
+    async getStaffDetails(username){
+        const staffDetails = {
+            username: username,
+        }
+
+        let details;
+        try {
+            await this.connectToDb();
+            const pat = await this.client.db("KNHDatabase").collection("staff").findOne(staffDetails);
+            if (pat._id != null) {
+                details = pat;
+            }
+            else{
+                details = {};
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
     async EditStaffProfile(username, firstname, lastname, residence){
         const staffDetails = {
             firstname: firstname,
