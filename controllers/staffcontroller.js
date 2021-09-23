@@ -174,7 +174,7 @@ exports.DeactivateAccount = async function(req, res) {
 exports.DeleteStaffById = async function(req, res, next) {
     try {
         var errors = validationResult(req);
-        var staff_Id = req.query.staff_id;
+        var staff_Id = req.query.username;
         if (errors.isEmpty()) {
             var result = await Staff.DeleteStaffById(staff_Id);
             if (result == true) {

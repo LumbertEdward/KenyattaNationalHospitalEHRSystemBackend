@@ -159,7 +159,7 @@ class Staff{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("staff").deleteOne({_id: id});
+            var foundList = await this.client.db("KNHDatabase").collection("staff").deleteOne({username: id});
             if (foundList.deletedCount > 0) {
                 details = true;
             }
