@@ -71,7 +71,7 @@ exports.LoginStaff = async function(req, res, next) {
 exports.EditStaffDetails = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var staff_id = req.query.staff_id;
+        var username = req.query.username;
         var firstname = req.query.firstname;
         var lastname = req.query.lastname;
         var residence = req.query.residence;

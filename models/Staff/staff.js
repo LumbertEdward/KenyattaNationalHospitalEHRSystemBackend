@@ -130,7 +130,7 @@ class Staff{
         return details;
     }
 
-    async EditStaffProfile(staff_id, firstname, lastname, residence){
+    async EditStaffProfile(username, firstname, lastname, residence){
         const staffDetails = {
             firstname: firstname,
             lastname: lastname,
@@ -140,7 +140,7 @@ class Staff{
         let details;
         try {
             await this.connectToDb();
-            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({_id: staff_id}, {$set: staffDetails});
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: staffDetails});
             if (pat.modifiedCount > 0) {
                 details = true;
             }
