@@ -213,6 +213,48 @@ exports.AllStaff = async function(req, res, next) {
     }
 }
 
+exports.AllPendingStaff = async function(req, res, next) {
+    try {
+        var result = await Staff.allPendingStaff();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "Not Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.AllActivatedStaff = async function(req, res, next) {
+    try {
+        var result = await Staff.allActivatedStaff();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "Not Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.AllSuspendedStaff = async function(req, res, next) {
+    try {
+        var result = await Staff.allSuspendedStaff();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "Not Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.AddNotifications = async function(req, res, next) {
     try {
         var errors = validationResult(req);

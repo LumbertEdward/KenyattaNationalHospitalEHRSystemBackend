@@ -196,6 +196,63 @@ class Staff{
         return result;
     }
 
+    async allPendingStaff(){
+        let result;
+        try {
+            await this.connectToDb();
+            const status = await this.client.db("KNHDatabase").collection("staff").find({status: "pending"}).sort({last_review: -1});
+            const data = await status.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async allActivatedStaff(){
+        let result;
+        try {
+            await this.connectToDb();
+            const status = await this.client.db("KNHDatabase").collection("staff").find({status: "activated"}).sort({last_review: -1});
+            const data = await status.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async allSuspendedStaff(){
+        let result;
+        try {
+            await this.connectToDb();
+            const status = await this.client.db("KNHDatabase").collection("staff").find({status: "suspended"}).sort({last_review: -1});
+            const data = await status.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
     async activateAccount(username){
         let details;
         try {
