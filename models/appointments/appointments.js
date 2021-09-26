@@ -135,6 +135,63 @@ class Appointments{
         }
         return details;
     }
+
+    async getApprovedAppointments(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({status: "approved"}).sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async getPendingAppointments(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({status: "pending"}).sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async getAllAppointments(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find().sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
 }
 
 module.exports = Appointments;

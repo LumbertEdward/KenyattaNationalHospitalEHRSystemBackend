@@ -273,10 +273,12 @@ class Staff{
     }
 
     async activateAccount(username){
+        const today = new Date();
+        const date = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear();
         let details;
         try {
             await this.connectToDb();
-            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: {status: "activated"}});
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: {status: "activated", added_on: date}});
             if (pat.modifiedCount > 0) {
                 console.log("success");
                 details = true;
