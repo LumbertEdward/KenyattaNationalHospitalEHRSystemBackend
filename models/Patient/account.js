@@ -157,12 +157,12 @@ class Patient{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("patient").deleteOne({_id: id});
+            var foundList = await this.client.db("KNHDatabase").collection("patient").deleteOne({identity_no: id});
             if (foundList.deletedCount > 0) {
                 details = true;
             }
             else{
-                details = true;
+                details = false;
             }
 
         } catch (error) {
