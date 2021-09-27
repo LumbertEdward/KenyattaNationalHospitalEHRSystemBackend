@@ -12,7 +12,7 @@ class Patient{
         } catch (error) {
             console.log(error);
         } finally{
-            await this.client.close();
+            //await this.client.close();
         }
     }
 
@@ -30,7 +30,10 @@ class Patient{
     
 
     async registerPatient(firstname, lastname, age, gender, identityNo, country, county, sub_county, village, telephone){
+        const random = Math.random() * 1000000 + 1000;
+
         const patientDetails = {
+            _id: random,
             firstname: firstname,
             lastname: lastname,
             age: age,
@@ -47,10 +50,11 @@ class Patient{
         try {
             await this.connectToDb();
             const pat = await this.client.db("KNHDatabase").collection("patient").insertOne(patientDetails);
-            if (pat.insertedId != null) {
+            if (pat) {
                 details = true;
             }
             else{
+                console.log("no")
                 details = false;
             }
 
