@@ -92,7 +92,7 @@ class Patient{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("patient").find({_id: id}).sort({last_review: -1});
+            var foundList = await this.client.db("KNHDatabase").collection("patient").find({identity_no: id}).sort({last_review: -1});
             var result = await foundList.toArray();
             if (result.length > 0) {
                 details = result;
