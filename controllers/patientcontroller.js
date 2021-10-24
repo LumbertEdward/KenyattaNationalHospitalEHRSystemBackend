@@ -169,7 +169,7 @@ exports.CheckPatientById = async function(req, res, next) {
 exports.DeletePatientById = async function(req, res, next) {
     try {
         var errors = validationResult(req);
-        var patient_Id = req.query.identity_no;
+        var patient_Id = req.query.patient_id;
         if (errors.isEmpty()) {
             var result = await patient.DeletePatientDetailsById(patient_Id);
             if (result == true) {
