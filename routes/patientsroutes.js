@@ -1,5 +1,5 @@
 var express = require('express');
-const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill } = require('../controllers/patientcontroller');
+const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin } = require('../controllers/patientcontroller');
 const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
@@ -7,6 +7,7 @@ var urlencodedParser = express.urlencoded({ extended: false });
 //Register Patient
 router.post('/register', urlencodedParser, RegisterPatient);
 router.post('/Profile/EditProfile', urlencodedParser, EditPatientProfile);
+router.post('/register/nok', urlencodedParser, RegisterNextOfKin);
 router.get('/DeletePatientbyId', DeletePatientById);
 //Check Patient
 router.get('/CheckPatientbyName', CheckPatientByName);

@@ -29,7 +29,7 @@ class Patient{
     }
     
 
-    async registerPatient(firstname, lastname, age, gender, identityNo, country, county, sub_county, village, telephone){
+    async registerPatient(firstname, lastname, age, gender, identityNo, country = "Kenya", county, sub_county, village, telephone, weight, height, temperature, pressure){
         const random = Math.random() * 1000000 + 1000;
 
         const patientDetails = {
@@ -44,6 +44,10 @@ class Patient{
             sub_county: sub_county,
             village: village,
             telephone: telephone,
+            weight: weight,
+            height: height,
+            temperature: temperature,
+            pressure: pressure
         }
 
         let details;
@@ -171,12 +175,17 @@ class Patient{
         return details;
     }
 
-    async AddNextOfKin(patient_id, NOK_firstname, NOK_lastname, NOK_telephone){
+    async AddNextOfKin(patient_id, NOK_firstname, NOK_lastname, NOK_telephone, gender, county, sub_county, village, national_id){
         const NOKDetails = {
             patient_id: patient_id,
             nok_firstname: NOK_firstname,
             nok_lastname: NOK_lastname,
             nok_telephone: NOK_telephone,
+            gender: gender,
+            county: county,
+            sub_county: sub_county,
+            village: village,
+            national_id: national_id
         }
 
         let details;

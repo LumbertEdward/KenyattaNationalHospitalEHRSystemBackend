@@ -192,6 +192,57 @@ class Appointments{
         }
         return details;
     }
+
+    //doctor Appointment
+
+    async setAvailability(doctor_id, date, slots, from, to){
+        const random = Math.random() * 1000000 + 1000;
+
+        const availability = {
+            _id: random,
+            doctor_id: doctor_id,
+            date: date,
+            slots: slots,
+            available: slots,
+            from_time: from,
+            to_time: to,
+            status: "available"
+        }
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("availability").insertOne(availability);
+            if (foundList.insertedId > 0) {
+                details = true;
+            }
+            else{
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async getAvailableSlots(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("availability").find().sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
 }
 
 module.exports = Appointments;

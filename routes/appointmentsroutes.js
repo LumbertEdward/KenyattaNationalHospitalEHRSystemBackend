@@ -1,5 +1,5 @@
 var express = require('express');
-const { AddAppointment, GetAppointmentDate, GetAppointmentSummary, GetAppointmentByDoctor, GetAppointmentByDepartment, ApproveAppointmentByDoctor, GetAllAppointments, GetPendingAppointments, GetApprovedAppointments } = require('../controllers/appointmentscontroller');
+const { AddAppointment, GetAppointmentDate, GetAppointmentSummary, GetAppointmentByDoctor, GetAppointmentByDepartment, ApproveAppointmentByDoctor, GetAllAppointments, GetPendingAppointments, GetApprovedAppointments, AddDoctorAppointmentAvailability, GetAvailableSlots } = require('../controllers/appointmentscontroller');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -13,6 +13,10 @@ router.get("/approve", ApproveAppointmentByDoctor);
 router.get("/all", GetAllAppointments);
 router.get("/all/pending", GetPendingAppointments);
 router.get("/all/activated", GetApprovedAppointments);
+
+//availability
+router.post("/doctor/availability", urlencodedParser, AddDoctorAppointmentAvailability);
+router.get("/slots/available", GetAvailableSlots);
 
 
 module.exports = router;

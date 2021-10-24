@@ -15,13 +15,17 @@ exports.RegisterPatient = async function(req, res) {
         var age = req.body.age;
         var gender = req.body.gender;
         var identityNo = req.body.identityNo;
-        var country = req.body.country;
+        var country = "Kenya";
         var county = req.body.county;
         var sub_county = req.body.sub_county;
         var village = req.body.village;
         var telephone = req.body.telephone;
+        var weight = req.body.weight;
+        var height = req.body.height;
+        var temperature = req.body.temperature;
+        var pressure = req.body.pressure;
         if (errors.isEmpty) {
-            var result = await patient.registerPatient(firstName, lastName, age, gender, identityNo, country, county, sub_county, village, telephone);
+            var result = await patient.registerPatient(firstName, lastName, age, gender, identityNo, country, county, sub_county, village, telephone, weight, height, temperature, pressure);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
@@ -47,8 +51,13 @@ exports.RegisterNextOfKin = async function(req, res) {
         var NOK_firstName = req.body.firstname;
         var NOK_lastName = req.body.lastname;
         var NOK_telephone = req.body.telephone;
+        var gender = req.body.gender;
+        var county = req.body.county;
+        var sub_county = req.body.sub_county;
+        var village = req.body.village;
+        var national_id = req.body.national_id; 
         if (errors.isEmpty) {
-            var result = await patient.AddNextOfKin(patient_id, NOK_firstName, NOK_lastName, NOK_telephone);
+            var result = await patient.AddNextOfKin(patient_id, NOK_firstName, NOK_lastName, NOK_telephone, gender, county, sub_county, village, national_id);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }

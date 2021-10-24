@@ -1,6 +1,7 @@
 const AppointmentsConnection = require('../models/appointments/appointments');
 const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const Appointment = new AppointmentsConnection(uri);
+const { body,validationResult } = require('express-validator');
 
 exports.AddAppointment = async function(req, res) {
     try {
@@ -172,6 +173,51 @@ exports.GetPendingAppointments = async function(req, res, next) {
 exports.GetAllAppointments = async function(req, res, next) {
     try {
         var result = await Appointment.getAllAppointments();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "No data"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//doctors Appointment
+
+exports.AddDoctorAppointmentAvailability = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var doctor_id = req.body.doctor_id;
+        var date = req.body.date;
+        var fromTime = req.body.fromTime;
+        var toTime = req.body.toTime;
+        var slots = req.body.slots;
+
+        if (errors.isEmpty) {
+            var result = await Appointment.setAvailability(doctor_id, date, slots, fromTime, toTime);
+            if (result == true) {
+                res.json({"message": "Availability Placed Successfully"});
+            }
+            else{
+                res.json({"message": "Not Successful"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetAvailableSlots = async function(req, res, next) {
+    try {
+        var result = await Appointment.getAvailableSlots();
         if (result.length > 0) {
             res.json({"message": "Found", "data": result});
         }
