@@ -195,7 +195,7 @@ class Appointments{
 
     //doctor Appointment
 
-    async setAvailability(doctor_id, date, slots, from, to){
+    async setAvailability(doctor_id, date, slots, fromTime, toTime){
         const random = Math.random() * 1000000 + 1000;
 
         const availability = {
@@ -204,15 +204,15 @@ class Appointments{
             date: date,
             slots: slots,
             available: slots,
-            from_time: from,
-            to_time: to,
+            from_time: fromTime,
+            to_time: toTime,
             status: "available"
         }
         let details;
         try {
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("availability").insertOne(availability);
-            if (foundList.insertedId > 0) {
+            if (foundList.insertedId != null) {
                 details = true;
             }
             else{
