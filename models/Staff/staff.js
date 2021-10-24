@@ -17,7 +17,7 @@ class Staff{
         }
     }
 
-    async registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, password, added_on, added_by, gender){
+    async registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, password, added_on, added_by, gender, national_id){
         
         const encryptedpassword = await bcrypt.hash(password, 10);
         const random = Math.random() * 1000000 + 1000;
@@ -31,6 +31,7 @@ class Staff{
             qualification: qualification,
             department_id: department_id,
             access_level: access_level,
+            national_id: national_id,
             country: country,
             county: county,
             residence: residence,

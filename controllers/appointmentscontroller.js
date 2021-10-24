@@ -215,6 +215,22 @@ exports.AddDoctorAppointmentAvailability = async function(req, res) {
     }
 }
 
+exports.GetAvailableSlotsByDate = async function(req, res) {
+    try {
+        var date = req.query.date;
+        var result = await Appointment.getAvailableSlotsByDate(date);
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "No data"});
+        }
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 exports.GetAvailableSlots = async function(req, res, next) {
     try {
         var result = await Appointment.getAvailableSlots();

@@ -243,6 +243,25 @@ class Appointments{
         }
         return details;
     }
+
+    async getAvailableSlotsByDate(date){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("availability").find({date: date}).sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
 }
 
 module.exports = Appointments;

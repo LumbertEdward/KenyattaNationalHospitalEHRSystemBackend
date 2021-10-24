@@ -12,6 +12,7 @@ exports.RegisterStaff = async function(req, res) {
         var gender = req.body.gender;
         var qualification = req.body.qualification;
         var department_id = req.body.department_id;
+        var national_id = req.body.national_id;
         var country = req.body.country;
         var county = req.body.county;
         var access_level = req.body.access_level;
@@ -24,7 +25,7 @@ exports.RegisterStaff = async function(req, res) {
         if (errors.isEmpty) {           
            const check = await Staff.checkStaffUsername(username);
             if (check == true) {
-                var result = await Staff.registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, password, added_on, added_by, gender);
+                var result = await Staff.registerStaff(firstname, lastname, username, qualification, department_id, access_level, country, county, residence, joining_date, password, added_on, added_by, gender, national_id);
                 if (result == true) {
                     res.json({"message": "Inserted Successfully"});
                 }
