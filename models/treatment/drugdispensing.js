@@ -11,7 +11,7 @@ class DrugDispensing{
         } catch (error) {
             console.log(error);
         } finally{
-            await this.client.close();
+            //await this.client.close();
         }
     }
 
