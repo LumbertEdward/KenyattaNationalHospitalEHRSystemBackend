@@ -218,7 +218,8 @@ exports.RecordTestResults = async function(req, res) {
         var lab_test_id = req.query.lab_test_id
         var test_cost = req.query.test_cost;
         var test_results = req.query.test_results;
-        var lab_test_date = req.query.lab_test_date;
+        var today = new Date()
+        var lab_test_date = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear()
         
         if (errors.isEmpty) {
             var result = await Lab.recordTestResults(lab_test_id, test_cost, test_results, lab_test_date);
