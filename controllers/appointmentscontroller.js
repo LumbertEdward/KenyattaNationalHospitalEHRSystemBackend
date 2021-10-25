@@ -146,6 +146,27 @@ exports.GetPendingAppointmentByDoctor = async function(req, res, next) {
     }
 }
 
+exports.GetCancelledAppointmentByDoctor = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var doctor_Id = req.query.doctor_id;
+        if (errors.isEmpty()) {
+            var result = await Appointment.getCancelledAppointmentsByDoctor(doctor_Id);
+            if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "No data"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.GetApprovedAppointmentByDoctor = async function(req, res, next) {
     try {
         var errors = validationResult(req);
