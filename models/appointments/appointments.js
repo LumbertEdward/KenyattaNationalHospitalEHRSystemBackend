@@ -109,6 +109,7 @@ class Appointments{
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").find({doctor_id: doctor_id, status: "approved"}).sort({last_review: -1});
             var result = await foundList.toArray();
+            console.log(result)
             if (result.length > 0) {
                 details = result;
             }
