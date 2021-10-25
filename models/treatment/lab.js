@@ -123,7 +123,7 @@ class Lab{
 
     }
 
-    async getRequestedLabTests(){
+    async getApprovedRequestedLabTests(){
         let result;
         try {
             await this.connectToDb();
@@ -140,7 +140,25 @@ class Lab{
         }
 
         return result;
+    }
 
+    async getRequestedLabTests(){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "false"}).sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
     }
 }
 

@@ -1,6 +1,6 @@
 var express = require('express');
 const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin } = require('../controllers/patientcontroller');
-const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests } = require('../controllers/treatment');
+const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -43,6 +43,7 @@ router.post('/lab/tests/results/add', urlencodedParser, RecordTestResults);
 router.get('/lab/tests/report', GetLabTestReport);
 router.get('/lab/tests/requests/patient', GetRequestedPatientLabResult);
 router.get('/lab/tests/requests', GetRequestedLabTests);
+router.get('/lab/tests/requests/approved', GetApprovedRequestedLabTests);
 
 //medicalhistory
 router.get('/treatment/:patient_id/history', GetTreatmentHistorySummary);

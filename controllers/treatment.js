@@ -301,6 +301,21 @@ exports.GetRequestedLabTests = async function(req, res, next) {
     
 }
 
+exports.GetApprovedRequestedLabTests = async function(req, res, next) {
+    try {
+        var result = await Lab.getApprovedRequestedLabTests();
+        if (result.length > 0) {
+            res.json({"message": "Requests Found", "data": result});
+        }
+        else{
+            res.json({"message": "No Request Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
 //history
 
 exports.GetTreatmentHistorySummary = async function(req, res, next) {
