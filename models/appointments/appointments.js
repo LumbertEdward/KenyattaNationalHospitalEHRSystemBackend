@@ -80,11 +80,30 @@ class Appointments{
         return details;
     }
 
-    async getAppointmentByDoctor(doctor_id){
+    async getPendingAppointmentsByDoctor(doctor_id){
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({doctor_id: doctor_id}).sort({last_review: -1});
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({doctor_id: doctor_id, status: "pending"}).sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async getApprovedAppointmentsByDoctor(doctor_id){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({doctor_id: doctor_id, status: "activated"}).sort({last_review: -1});
             var result = await foundList.toArray();
             if (result.length > 0) {
                 details = result;

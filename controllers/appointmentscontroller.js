@@ -12,7 +12,7 @@ exports.AddAppointment = async function(req, res) {
         var patient_id = req.body.patient_id;
         var doctor_id = req.body.doctor_id;
         var department_id = req.body.department_id; 
-
+        
         if (errors.isEmpty) {
             var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id);
             if (result == true) {
@@ -100,12 +100,33 @@ exports.GetAppointmentSummary = async function(req, res, next) {
     }
 }
 
-exports.GetAppointmentByDoctor = async function(req, res, next) {
+exports.GetPendingAppointmentByDoctor = async function(req, res, next) {
     try {
         var errors = validationResult(req);
         var doctor_Id = req.query.doctor_id;
         if (errors.isEmpty()) {
-            var result = await Appointment.getAppointmentByDoctor(doctor_Id);
+            var result = await Appointment.getPendingAppointmentsByDoctor(doctor_Id);
+            if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "No data"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetApprovedAppointmentByDoctor = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var doctor_Id = req.query.doctor_id;
+        if (errors.isEmpty()) {
+            var result = await Appointment.getApprovedAppointmentsByDoctor(doctor_Id);
             if (result.length > 0) {
                 res.json({"message": "Found", "data": result});
             }
