@@ -33,6 +33,29 @@ class Lab{
         return result;
     }
 
+    async approveTest(lab_test_id, test_status){
+        const details = {
+            test_status: test_status
+        }
+
+        let result;
+
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("lab").updateOne({lab_test_id: lab_test_id}, {$set: details});
+            if (data.modifiedCount > 0) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
     async recordTestResults(test_name, test_cost, test_results, lab_test_date, test_status){
         const details = {
             test_name: test_name,
@@ -104,7 +127,7 @@ class Lab{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "false"}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;

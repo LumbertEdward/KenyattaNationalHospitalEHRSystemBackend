@@ -164,6 +164,32 @@ exports.GetTreatmentReport = async function(req, res, next) {
 
 //lab
 
+exports.ApproveTests = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var lab_test_id = req.query.lab_test_id;
+        var test_status = "true";
+        
+        if (errors.isEmpty) {
+            var result = await Lab.approveTest(lab_test_id, test_status);
+            if (result == true) {
+                res.json({"message": "Approved Successfully"});
+            }
+            else{
+                res.json({"message": "Not Approved"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
 exports.GetTestCost = async function(req, res, next) {
     try {
         var errors = validationResult(req);

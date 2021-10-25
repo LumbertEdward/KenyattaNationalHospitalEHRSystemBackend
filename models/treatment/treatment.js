@@ -113,7 +113,9 @@ class Treatment{
     async makeLabRequests(patient_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "", test_status = "false"){
         
         const treatment_id = (Math.random() * 1000) + 100;
+        const lab_test_id = (Math.random() * 2000) + 200;
         const details = {
+            lab_test_id: lab_test_id,
             treatment_id: treatment_id.toString(),
             patient_id: patient_id,
             staff_id: staff_id,
