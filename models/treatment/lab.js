@@ -56,20 +56,18 @@ class Lab{
         return result;
     }
 
-    async recordTestResults(test_name, test_cost, test_results, lab_test_date, test_status){
+    async recordTestResults(lab_test_id, test_cost, test_results, lab_test_date){
         const details = {
-            test_name: test_name,
             test_cost: test_cost,
             test_results: test_results,
             lab_test_date: lab_test_date,
-            test_status: test_status
         }
 
         let result;
 
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").updateOne({_id: test_id}, {$set: details});
+            const data = await this.client.db("KNHDatabase").collection("lab").updateOne({lab_test_id: lab_test_id}, {$set: details});
             if (data.modifiedCount > 0) {
                 result = true;
             }

@@ -215,14 +215,13 @@ exports.GetTestCost = async function(req, res, next) {
 exports.RecordTestResults = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var test_name = req.body.test_name;
-        var test_cost = req.body.test_cost;
-        var test_results = req.body.test_results;
-        var lab_test_date = req.body.lab_test_date;
-        var test_status = "true";
+        var lab_test_id = req.query.lab_test_id
+        var test_cost = req.query.test_cost;
+        var test_results = req.query.test_results;
+        var lab_test_date = req.query.lab_test_date;
         
         if (errors.isEmpty) {
-            var result = await Lab.recordTestResults(test_name, test_cost, test_results, lab_test_date, test_status);
+            var result = await Lab.recordTestResults(lab_test_id, test_cost, test_results, lab_test_date);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }

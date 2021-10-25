@@ -39,7 +39,7 @@ router.get('/treatment/report', GetTreatmentReport);
 
 //lab
 router.get('/lab/tests/cost', GetTestCost);
-router.post('/lab/tests/results/add', urlencodedParser, RecordTestResults);
+router.get('/lab/tests/results/add', RecordTestResults);
 router.get('/lab/tests/report', GetLabTestReport);
 router.get('/lab/tests/requests/patient', GetRequestedPatientLabResult);
 router.get('/lab/tests/requests', GetRequestedLabTests);
