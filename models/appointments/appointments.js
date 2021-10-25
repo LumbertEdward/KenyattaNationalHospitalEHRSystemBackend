@@ -17,10 +17,10 @@ class Appointments{
 
     async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id){
         
-        const random = Math.random() * 10000 + 1000;
+        const random = (Math.random() * 10000) + 100;
 
         const appointmentDetails = {
-            appointment_id: random,
+            appointment_id: random.toString(),
             appointment_reason: appointment_reason,
             appointment_due_date: appointment_due_date,
             appointment_created_date: appointment_created_date,
@@ -126,7 +126,7 @@ class Appointments{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("appointment").updateOne({id: appointment_id}, {$set: {status: "approved"}});
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").updateOne({appointment_id: appointment_id}, {$set: {status: "approved"}});
             console.log(foundList)
             if (foundList.modifiedCount > 0) {
                 details = true;
