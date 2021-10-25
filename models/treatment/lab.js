@@ -80,6 +80,26 @@ class Lab{
 
     }
 
+    async getRequestedPatientLabResults(patient_id){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true", patient_id: patient_id}).sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+
+    }
+
     async getRequestedLabTests(){
         let result;
         try {

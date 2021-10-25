@@ -2,6 +2,7 @@ const TreatmentController = require('../models/treatment/treatment');
 const LabController = require('../models/treatment/lab');
 const HistoryController = require('../models/treatment/medicationhistory');
 const DrugController = require('../models/treatment/drugdispensing');
+const { validationResult } = require('express-validator');
 const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const Treatment = new TreatmentController(uri);
 const Lab = new LabController(uri);
@@ -115,12 +116,12 @@ exports.GetTreatmentSummary = async function(req, res, next) {
 exports.MakeLabRequests = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var patient_id = req.params.patient_id;
-        var treatment_id = req.body.treatment_id;
+        var patient_id = req.body.patient_id;
         var staff_id = req.body.staff_id;
+        var test_notes = req.body.test_notes;
         
         if (errors.isEmpty) {
-            var result = await Treatment.makeLabRequests(treatment_id, patient_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "");
+            var result = await Treatment.makeLabRequests(patient_id, staff_id, test_notes = "", test_results = "", test_cost = "", lab_test_date = "");
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
@@ -235,6 +236,29 @@ exports.GetLabTestReport = async function(req, res, next) {
     }
     
 } 
+
+exports.GetRequestedPatientLabResult = async function(req, res, next) {
+    try {
+        var errors = validationResult(req)
+        if (errors.isEmpty) {
+            var patient_id = req.query.patient_id
+
+            var result = await Lab.getRequestedPatientLabResults(patient_id);
+            if (result.length > 0) {
+                res.json({"message": "Requests Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Request Found"});
+            }
+        }
+        else{
+            console.log("Input Error")
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
 
 exports.GetRequestedLabTests = async function(req, res, next) {
     try {

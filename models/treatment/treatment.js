@@ -110,16 +110,19 @@ class Treatment{
 
     }
 
-    async makeLabRequests(treatment_id, patient_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "", test_status = "false"){
+    async makeLabRequests(patient_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "", test_status = "false"){
+        
+        const treatment_id = (Math.Random() * 1000) + 100;
         const details = {
-            treatment_id: treatment_id,
+            treatment_id: treatment_id.toString(),
             patient_id: patient_id,
             staff_id: staff_id,
             test_name: test_name,
             test_cost: test_cost,
             test_results: test_results,
             lab_test_date: lab_test_date,
-            test_status: test_status
+            test_status: test_status,
+            paid: "false"
         }
 
         let result;

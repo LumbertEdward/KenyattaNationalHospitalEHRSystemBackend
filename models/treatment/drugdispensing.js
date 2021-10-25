@@ -15,11 +15,14 @@ class DrugDispensing{
         }
     }
 
-    async prescribeDrugs(treatment_id, patient_id, drug_prescription, issue_status = "false"){
+    async prescribeDrugs(treatment_id, patient_id, drug, days, usage, notes, issue_status = "false"){
         const details = {
             treatment_id: treatment_id,
             patient_id: patient_id,
-            drug_prescription: drug_prescription,
+            drug: drug,
+            days: days,
+            usage_per_day: usage,
+            notes: notes,
             issue_status: issue_status
         }
 
