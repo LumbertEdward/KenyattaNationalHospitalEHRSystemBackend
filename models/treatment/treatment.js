@@ -115,7 +115,7 @@ class Treatment{
         const treatment_id = (Math.random() * 1000) + 100;
         const lab_test_id = (Math.random() * 2000) + 200;
         const details = {
-            lab_test_id: lab_test_id,
+            lab_test_id: lab_test_id.toString(),
             treatment_id: treatment_id.toString(),
             patient_id: patient_id,
             staff_id: staff_id,
