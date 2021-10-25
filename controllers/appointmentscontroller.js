@@ -58,6 +58,31 @@ exports.ApproveAppointmentByDoctor = async function(req, res) {
     }
 }
 
+exports.CancellAppointmentByDoctor = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var appointment_id = req.query.appointment_id;
+         
+        if (errors.isEmpty) {
+            var result = await Appointment.cancelAppointmentByDoctor(appointment_id);
+            if (result == true) {
+                res.json({"message": "Appointment Cancelled Successfully"});
+            }
+            else{
+                res.json({"message": "Not Cancelled"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
 exports.GetAppointmentDate = async function(req, res, next) {
     try {
         var errors = validationResult(req);

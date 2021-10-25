@@ -109,7 +109,6 @@ class Appointments{
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").find({doctor_id: doctor_id, status: "approved"}).sort({last_review: -1});
             var result = await foundList.toArray();
-            console.log(result)
             if (result.length > 0) {
                 details = result;
             }
@@ -128,7 +127,26 @@ class Appointments{
         try {
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").updateOne({appointment_id: appointment_id}, {$set: {status: "approved"}});
-            console.log(foundList)
+            if (foundList.modifiedCount > 0) {
+                details = true;
+            }
+            else{
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        console.log(details)
+        return details;
+    }
+
+    async cancelAppointmentByDoctor(appointment_id){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").updateOne({appointment_id: appointment_id}, {$set: {status: "cancelled"}});
             if (foundList.modifiedCount > 0) {
                 details = true;
             }
