@@ -348,6 +348,50 @@ exports.VisitSummary = async function(req, res, next) {
     
 }
 
+//drugs
+exports.AddDrugs = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var drug_name = req.body.drug_name
+        var drug_cost = req.body.drug_cost
+        var total = req.body.total
+        
+        if (errors.isEmpty) {
+            var result = await Drug.addDrugs(drug_name, drug_cost, total);
+            if (result == true) {
+                res.json({"message": "Inserted Successfully"});
+            }
+            else{
+                res.json({"message": "Not Inserted"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetDrugs = async function(req, res, next) {
+    try {
+        var result = await Drug.getDrugs();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "NotFound"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
+
 //prescription
 
 exports.PrescribeDrugs = async function(req, res) {
@@ -355,10 +399,13 @@ exports.PrescribeDrugs = async function(req, res) {
         var errors = validationResult(req);
         var treatment_id = req.body.treatment_id;
         var patient_id = req.body.patient_id;
-        var drug_prescription = req.body.drug_prescription;
+        var drug = req.body.drug
+        var days = req.body.days
+        var usage = req.body.usage
+        var notes = req.body.notes
         
         if (errors.isEmpty) {
-            var result = await Drug.prescribeDrugs(treatment_id, patient_id, drug_prescription);
+            var result = await Drug.prescribeDrugs(treatment_id, patient_id, drug, days, usage, notes);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }

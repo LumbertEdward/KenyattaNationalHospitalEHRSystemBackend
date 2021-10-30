@@ -15,8 +15,58 @@ class DrugDispensing{
         }
     }
 
-    async prescribeDrugs(treatment_id, patient_id, drug, days, usage, notes, issue_status = "false"){
+    async addDrugs(drug_name, drug_cost, total){
+        const random = Math.random() * 1000000 + 1000;
         const details = {
+            _id: random.toString(),
+            drug_name: drug_name,
+            drug_cost: drug_cost,
+            total: total 
+        }
+
+        let result;
+        console.log(details)
+
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("drugs").insertOne(details);
+            if (data.insertedId != null) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+
+    }
+
+    async getDrugs(){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("drugs").find().sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async prescribeDrugs(treatment_id, patient_id, drug, days, usage, notes, issue_status = "false"){
+        const random = Math.random() * 1000000 + 1000;
+        const details = {
+            _id: random.toString(),
             treatment_id: treatment_id,
             patient_id: patient_id,
             drug: drug,
