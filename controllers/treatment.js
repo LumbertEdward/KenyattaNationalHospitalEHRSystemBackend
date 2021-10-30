@@ -451,7 +451,7 @@ exports.IssueDrugs = async function(req, res) {
 
 exports.GetPrescribedDrugs = async function(req, res, next) {
     try {
-        var result = await History.getPrescribedDrugs();
+        var result = await Drug.getPrescribedDrugs();
         if (result.length > 0) {
             res.json({"message": "Found", "data": result});
         }
@@ -466,7 +466,7 @@ exports.GetPrescribedDrugs = async function(req, res, next) {
 
 exports.GetPrescribedDrugsByPatient = async function(req, res, next) {
     try {
-        var result = await History.getPrescribedDrugsByPatient(req.query.patient_id);
+        var result = await Drug.getPrescribedDrugsByPatient(req.query.patient_id);
         if (result.length > 0) {
             res.json({"message": "Found", "data": result});
         }
@@ -481,7 +481,7 @@ exports.GetPrescribedDrugsByPatient = async function(req, res, next) {
 
 exports.GetDrugDispensingReport = async function(req, res, next) {
     try {
-        var result = await History.getDrugDispensingReport();
+        var result = await Drug.getDrugDispensingReport();
         if (result.length > 0) {
             res.json({"message": "Found", "data": result});
         }
@@ -496,7 +496,7 @@ exports.GetDrugDispensingReport = async function(req, res, next) {
 
 exports.GetDrugDispensingReportByPatient = async function(req, res, next) {
     try {
-        var result = await History.getDrugDispensingReportByPatient(req.query.patient_id);
+        var result = await Drug.getDrugDispensingReportByPatient(req.query.patient_id);
         if (result.length > 0) {
             res.json({"message": "Found", "data": result});
         }
