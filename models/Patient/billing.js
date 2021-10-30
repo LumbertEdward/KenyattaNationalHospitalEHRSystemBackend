@@ -85,6 +85,7 @@ class Billing{
         } catch (error) {
             console.log(error);
         }
+        return result
 
     }
 
