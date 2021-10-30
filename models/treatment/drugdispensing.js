@@ -119,7 +119,7 @@ class DrugDispensing{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("prescription").find().sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("prescription").find({issue_status: "false"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -138,7 +138,7 @@ class DrugDispensing{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("prescription").find({patient_id: patient_id}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("prescription").find({patient_id: patient_id, issue_status: "false"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -157,7 +157,7 @@ class DrugDispensing{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("prescription").find().sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("prescription").find({issue_status: "true"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -176,7 +176,7 @@ class DrugDispensing{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("prescription").find({patient_id: patient_id}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("prescription").find({patient_id: patient_id, issue_status: "true"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
