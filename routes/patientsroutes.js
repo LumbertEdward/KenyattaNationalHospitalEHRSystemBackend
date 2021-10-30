@@ -1,6 +1,6 @@
 var express = require('express');
 const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin } = require('../controllers/patientcontroller');
-const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs } = require('../controllers/treatment');
+const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -60,5 +60,7 @@ router.get('/drugs/prescribed/all', GetPrescribedDrugs);
 router.get('/drugs/prescribed/patient', GetPrescribedDrugsByPatient);
 router.get('/drugs/dispensingreport', GetDrugDispensingReport);
 router.get('/drugs/dispensingreport/patient', GetDrugDispensingReportByPatient);
+router.get('/drugs/cancel', SetCancelledPrescription);
+router.get('/drugs/dispensingreport/cancelled', GetCancelledDispensingReport);
 
 module.exports = router;

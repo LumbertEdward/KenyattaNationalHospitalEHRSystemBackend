@@ -190,6 +190,45 @@ class DrugDispensing{
 
         return result;
     }
+
+    async cancelPrescription(prescription_id){
+        let result;
+
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("prescription").updateOne({_id: prescription_id}, {$set: {issue_status: "cancelled"}});
+            if (data.modifiedCount > 0) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+
+    }
+
+    async getCancelledDispensedDrugs(){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("prescription").find({issue_status: "cancelled"}).sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
 }
 
 module.exports = DrugDispensing;

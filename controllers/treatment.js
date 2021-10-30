@@ -509,6 +509,46 @@ exports.GetDrugDispensingReportByPatient = async function(req, res, next) {
     
 }
 
+exports.SetCancelledPrescription = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var drug_id = req.query.drug_id;
+        
+        if (errors.isEmpty) {
+            var result = await Drug.cancelPrescription(drug_id)
+            if (result == true) {
+                res.json({"message": "Updated Successfully"});
+            }
+            else{
+                res.json({"message": "Not Updated"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetCancelledDispensingReport = async function(req, res, next) {
+    try {
+        var result = await Drug.getCancelledDispensedDrugs()
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "NotFound"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
 
 
 
