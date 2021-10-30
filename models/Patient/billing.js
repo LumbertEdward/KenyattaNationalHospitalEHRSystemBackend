@@ -125,6 +125,44 @@ class Billing{
 
         return report;
     }
+
+    async getCompletedBillReport(){
+        let report;
+        try {
+            await this.connectToDb();
+            const outPut = await this.client.db("KNHDatabase").collection("billing").find({status: "true"}).sort({last_review: -1});
+            const data = await outPut.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return report;
+    }
+
+    async getPendingBillReport(){
+        let report;
+        try {
+            await this.connectToDb();
+            const outPut = await this.client.db("KNHDatabase").collection("billing").find({status: "false"}).sort({last_review: -1});
+            const data = await outPut.toArray();
+            if (data.length > 0) {
+                result = data;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return report;
+    }
 }
 
 module.exports = Billing;

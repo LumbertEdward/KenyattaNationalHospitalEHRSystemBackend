@@ -411,3 +411,47 @@ exports.GetBillReport = async function(req, res) {
     }
 }
 
+exports.GetCompletedBillReport = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+
+        if (errors.isEmpty) {
+            const result = await Bill.getCompletedBillReport()
+            if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+        }
+        else{
+            res.json({"message": errors.array});
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetPendingBillReport = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+
+        if (errors.isEmpty) {
+            const result = await Bill.getPendingBillReport()
+            if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+        }
+        else{
+            res.json({"message": errors.array});
+        }
+        
+    } catch (error) {
+        console.log(error);
+    }
+}
+
