@@ -299,14 +299,18 @@ exports.RemovePatientFromQueue = async function(req, res) {
 exports.SetBill = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var patient_Id = req.body.patient_id;
+        var treatment_id = req.body.treatment_id
+        var patient_id = req.body.patient_id;
+        var service_name = req.body.service_name;
         var service_cost = req.body.service_cost;
         var service_department = req.body.service_department;
-        var added_on = req.body.added_on;
+        var today = new Date();
+        var time = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
+        var added_on = time;
         var added_by = req.body.added_by;
 
         if (errors.isEmpty) {
-            const result = await Bill.setBill(patient_Id, service_cost, service_department, added_on, added_by);
+            const result = await Bill.setBill(treatment_id, patient_id, service_name, service_cost, service_department, added_on, added_by);
             if (result == true) {
                 res.json({"message": "Added to Bill"});
             }

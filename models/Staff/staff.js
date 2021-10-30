@@ -23,7 +23,7 @@ class Staff{
         const random = Math.random() * 1000000 + 1000;
         
         const staffDetails = {
-            _id: random,
+            _id: random.toString(),
             username: username,
             firstname: firstname,
             lastname: lastname,

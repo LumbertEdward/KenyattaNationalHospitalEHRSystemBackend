@@ -16,7 +16,9 @@ class Billing{
     }
 
     async setBill(treatment_id, patient_id, service_name, service_cost, service_department, added_on, added_by, status = "false"){
+        const random = Math.random() * 1000000 + 1000;
         const details = {
+            _id: random.toString(),
             treatment_id: treatment_id,
             patient_id: patient_id,
             service_name: service_name,

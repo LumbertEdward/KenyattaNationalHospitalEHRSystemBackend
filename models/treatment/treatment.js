@@ -61,15 +61,15 @@ class Treatment{
 
     }
 
-    async writeTreatment(patient_id, treatment_notes, test_id, drug_id, staff_id, treatment_date, treatment_disease){
+    async writeTreatment(patient_id, treatment_id, treatment_notes, staff_id, treatment_date){
+        const random = Math.random() * 1000000 + 1000;
         const treatment = {
+            _id: random.toString(),
             patient_id: patient_id,
+            treatment_id: treatment_id,
             treatment_notes: treatment_notes,
-            test_id: test_id,
-            drug_id: drug_id,
             staff_id: staff_id,
             treatment_date: treatment_date,
-            treatment_disease: treatment_disease
         }
 
         let result;

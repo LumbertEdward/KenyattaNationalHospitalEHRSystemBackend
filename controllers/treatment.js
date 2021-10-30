@@ -65,14 +65,13 @@ exports.WriteTreatment = async function(req, res) {
         var errors = validationResult(req);
         var patient_id = req.params.patient_id;
         var treatment_notes = req.body.treatment_notes;
-        var test_id = req.body.test_id;
-        var drug_id = req.body.drug_id;
+        var treatment_id = req.body.treatment_id;
         var staff_id = req.body.staff_id;
-        var treatment_date = req.body.treatment_date;
-        var treatment_disease = req.body.treatment_disease;
+        var today = new Date()
+        var treatment_date = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear()
         
         if (errors.isEmpty) {
-            var result = await Treatment.writeTreatment(patient_id, treatment_notes, test_id, drug_id, staff_id, treatment_date, treatment_disease);
+            var result = await Treatment.writeTreatment(patient_id, treatment_id, treatment_notes, staff_id, treatment_date);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
