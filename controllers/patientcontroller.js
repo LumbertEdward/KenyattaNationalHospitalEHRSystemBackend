@@ -413,19 +413,12 @@ exports.GetBillReport = async function(req, res) {
 
 exports.GetCompletedBillReport = async function(req, res) {
     try {
-        var errors = validationResult(req);
-
-        if (errors.isEmpty) {
-            const result = await Bill.getCompletedBillReport()
-            if (result.length > 0) {
-                res.json({"message": "Found", "data": result});
-            }
-            else{
-                res.json({"message": "Not Found"});
-            }
+        const result = await Bill.getCompletedBillReport()
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
         }
         else{
-            res.json({"message": errors.array});
+            res.json({"message": "Not Found"});
         }
         
     } catch (error) {
@@ -435,19 +428,12 @@ exports.GetCompletedBillReport = async function(req, res) {
 
 exports.GetPendingBillReport = async function(req, res) {
     try {
-        var errors = validationResult(req);
-
-        if (errors.isEmpty) {
-            const result = await Bill.getPendingBillReport()
-            if (result.length > 0) {
-                res.json({"message": "Found", "data": result});
-            }
-            else{
-                res.json({"message": "Not Found"});
-            }
+        const result = await Bill.getPendingBillReport()
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
         }
         else{
-            res.json({"message": errors.array});
+            res.json({"message": "Not Found"});
         }
         
     } catch (error) {
