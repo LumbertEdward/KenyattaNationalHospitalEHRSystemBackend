@@ -141,6 +141,7 @@ class Patient{
             temperature: temperature,
             pressure: pressure
         }
+        console.log(patientDetails)
         let result;
         try {
             await this.connectToDb();

@@ -79,7 +79,7 @@ exports.RegisterNextOfKin = async function(req, res) {
 exports.EditPatientProfile = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var patient_Id = req.body.patient_Id
+        var patient_Id = req.body.patient_Id;
         var firstName = req.body.firstname;
         var lastName = req.body.lastname;
         var age = req.body.age;
