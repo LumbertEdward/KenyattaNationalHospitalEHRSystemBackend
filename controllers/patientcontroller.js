@@ -418,6 +418,7 @@ exports.GetCompletedBillReport = async function(req, res) {
             res.json({"message": "Found", "data": result});
         }
         else{
+            console.log(result)
             res.json({"message": "Not Found"});
         }
         

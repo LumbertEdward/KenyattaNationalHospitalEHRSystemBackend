@@ -27,8 +27,8 @@ router.get('/billing/pay', PayBill);
 router.get('/billing/:patient_id/total', GetBillTotal);
 router.get('/billing/:service_id/department', GetServiceDepartment);
 router.get('/billing/:patient_id/report', GetBillReport);
-router.get('/billing/pendingbills/report', GetPendingBillReport);
-router.get('/billing/completedbills/report', GetCompletedBillReport);
+router.get('/billing/pendingbills/report/all', GetPendingBillReport);
+router.get('/billing/completedbills/report/all', GetCompletedBillReport);
 
 //treatment
 router.post('/metrics/add', urlencodedParser, RecordMetrics);

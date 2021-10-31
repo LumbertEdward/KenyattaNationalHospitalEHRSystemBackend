@@ -108,7 +108,7 @@ class Billing{
     }
 
     async getBillReport(patient_id){
-        let report;
+        let result;
         try {
             await this.connectToDb();
             const outPut = await this.client.db("KNHDatabase").collection("billing").find({patient_id: patient_id}).sort({last_review: -1});
@@ -123,11 +123,11 @@ class Billing{
             console.log(error);
         }
 
-        return report;
+        return result;
     }
 
     async getCompletedBillReport(){
-        let report;
+        let result;
         try {
             await this.connectToDb();
             const outPut = await this.client.db("KNHDatabase").collection("billing").find({status: "true"}).sort({last_review: -1});
@@ -142,11 +142,11 @@ class Billing{
             console.log(error);
         }
 
-        return report;
+        return result;
     }
 
     async getPendingBillReport(){
-        let report;
+        let result;
         try {
             await this.connectToDb();
             const outPut = await this.client.db("KNHDatabase").collection("billing").find({status: "false"}).sort({last_review: -1});
@@ -161,7 +161,7 @@ class Billing{
             console.log(error);
         }
 
-        return report;
+        return result;
     }
 }
 
