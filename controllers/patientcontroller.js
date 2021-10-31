@@ -82,15 +82,16 @@ exports.EditPatientProfile = async function(req, res) {
         var firstName = req.body.firstname;
         var lastName = req.body.lastname;
         var age = req.body.age;
-        var gender = req.body.gender;
-        var identityNo = req.body.identityNo;
-        var country = req.body.country;
         var county = req.body.county;
         var sub_county = req.body.sub_county;
         var village = req.body.village;
         var telephone = req.body.telephone;
+        var weight = req.body.weight;
+        var height = req.body.height;
+        var temperature = req.body.temperature;
+        var pressure = req.body.pressure;
         if (errors.isEmpty) {
-            const result = await patient.EditPatientProfile(firstName, lastName, age, gender, identityNo, country, county, sub_county, village, telephone);
+            const result = await patient.EditPatientProfile(firstName, lastName, age, county, sub_county, village, telephone, weight, height, temperature, pressure);
             if (result == true) {
                 res.json({"message": "Edited Successfully"});
             }

@@ -127,18 +127,19 @@ class Patient{
         return lst;
     }
 
-    async EditPatientProfile(patient_id, firstname, lastname, age, gender, identityNo, country, county, sub_county, village, telephone){
+    async EditPatientProfile(patient_id, firstname, lastname, age, county, sub_county, village, telephone, weight, height, temperature, pressure){
         const patientDetails = {
             firstname: firstname,
             lastname: lastname,
             age: age,
-            gender: gender,
-            identity_no: identityNo,
-            country: country,
             county: county,
             sub_county: sub_county,
             village: village,
             telephone: telephone,
+            weight: weight,
+            height: height,
+            temperature: temperature,
+            pressure: pressure
         }
         let result;
         try {
