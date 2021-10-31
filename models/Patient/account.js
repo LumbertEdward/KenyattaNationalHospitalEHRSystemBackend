@@ -33,7 +33,7 @@ class Patient{
         const random = Math.random() * 1000000 + 1000;
 
         const patientDetails = {
-            _id: random,
+            _id: random.toString(),
             firstname: firstname,
             lastname: lastname,
             age: age,
@@ -127,7 +127,7 @@ class Patient{
         return lst;
     }
 
-    async EditPatientProfile(patient_id, firstname, lastname, age, county, sub_county, village, telephone, weight, height, temperature, pressure){
+    async editPatientProfile(patient_id, firstname, lastname, age, county, sub_county, village, telephone, weight, height, temperature, pressure){
         const patientDetails = {
             firstname: firstname,
             lastname: lastname,
@@ -144,7 +144,7 @@ class Patient{
         let result;
         try {
             await this.connectToDb();
-            const check = await this.client.db("KNHDatabase").collection("patient").updateOne({_id: patient_id}, {$set: patientDetails});
+            const check = await this.client.db("KNHDatabase").collection("patient").updateOne({identity_no: patient_id}, {$set: patientDetails});
             if (check.modifiedCount > 0) {
                 result = true;
             }

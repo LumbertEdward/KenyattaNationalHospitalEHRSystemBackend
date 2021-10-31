@@ -79,6 +79,7 @@ exports.RegisterNextOfKin = async function(req, res) {
 exports.EditPatientProfile = async function(req, res) {
     try {
         var errors = validationResult(req);
+        var patient_Id = req.body.patient_Id
         var firstName = req.body.firstname;
         var lastName = req.body.lastname;
         var age = req.body.age;
@@ -91,7 +92,7 @@ exports.EditPatientProfile = async function(req, res) {
         var temperature = req.body.temperature;
         var pressure = req.body.pressure;
         if (errors.isEmpty) {
-            const result = await patient.EditPatientProfile(firstName, lastName, age, county, sub_county, village, telephone, weight, height, temperature, pressure);
+            const result = await patient.editPatientProfile(patient_Id, firstName, lastName, age, county, sub_county, village, telephone, weight, height, temperature, pressure);
             if (result == true) {
                 res.json({"message": "Edited Successfully"});
             }
