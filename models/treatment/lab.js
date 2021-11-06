@@ -60,7 +60,7 @@ class Lab{
         const details = {
             test_cost: test_cost,
             test_results: test_results,
-            lab_test_date: lab_test_date,
+            lab_test_date: new Date(lab_test_date),
         }
 
         let result;
@@ -145,6 +145,25 @@ class Lab{
         try {
             await this.connectToDb();
             const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "false"}).sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async getSearchedLabTestsReport(){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("lab").find({lab_test_date: { $gte: new Date('25/9/2021')}}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;

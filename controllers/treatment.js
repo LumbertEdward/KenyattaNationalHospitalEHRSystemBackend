@@ -262,6 +262,28 @@ exports.GetLabTestReport = async function(req, res, next) {
     
 } 
 
+exports.GetSearchedLabTestReport = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        //var patient_id = req.query.patient_id;
+        if (errors.isEmpty) {
+            var result = await Lab.getSearchedLabTestsReport()
+            if (result.length > 0) {
+                res.json({"message": "Report Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Report Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
 exports.GetRequestedPatientLabResult = async function(req, res, next) {
     try {
         var errors = validationResult(req)
