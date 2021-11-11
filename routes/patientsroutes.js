@@ -1,6 +1,6 @@
 var express = require('express');
 const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin, GetPendingBillReport, GetCompletedBillReport } = require('../controllers/patientcontroller');
-const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport, GetSearchedLabTestReport } = require('../controllers/treatment');
+const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport, GetSearchedLabTestReport, GetLabTestReportByPatient } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -43,6 +43,7 @@ router.get('/treatment/report', GetTreatmentReport);
 router.get('/lab/tests/cost', GetTestCost);
 router.get('/lab/tests/results/add', RecordTestResults);
 router.get('/lab/tests/report', GetLabTestReport);
+router.get('/lab/tests/report/patient', GetLabTestReportByPatient);
 router.get('/lab/tests/requests/patient', GetRequestedPatientLabResult);
 router.get('/lab/tests/requests', GetRequestedLabTests);
 router.get('/lab/tests/requests/approved', GetApprovedRequestedLabTests);

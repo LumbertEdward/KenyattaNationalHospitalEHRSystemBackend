@@ -241,12 +241,12 @@ exports.RecordTestResults = async function(req, res) {
     }
 }
 
-exports.GetLabTestReport = async function(req, res, next) {
+exports.GetLabTestReportByPatient = async function(req, res, next) {
     try {
         var errors = validationResult(req);
         var patient_id = req.query.patient_id;
         if (errors.isEmpty) {
-            var result = await Lab.getLabTestReport(patient_id);
+            var result = await Lab.getLabTestReportByPatient(patient_id);
             if (result.length > 0) {
                 res.json({"message": "Report Found", "data": result});
             }
@@ -263,12 +263,35 @@ exports.GetLabTestReport = async function(req, res, next) {
     
 } 
 
+exports.GetLabTestReport = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        
+        if (errors.isEmpty) {
+            var result = await Lab.getLabTestReport();
+            if (result.length > 0) {
+                res.json({"message": "Report Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Report Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
 exports.GetSearchedLabTestReport = async function(req, res, next) {
     try {
         var errors = validationResult(req);
-        //var patient_id = req.query.patient_id;
+        var startdate = req.query.startdate;
+        var enddate = req.query.enddate;
         if (errors.isEmpty) {
-            var result = await Lab.getSearchedLabTestsReport()
+            var result = await Lab.getSearchedLabTestsReport(startdate, enddate)
             if (result.length > 0) {
                 res.json({"message": "Report Found", "data": result});
             }
