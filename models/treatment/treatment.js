@@ -69,7 +69,7 @@ class Treatment{
             treatment_id: treatment_id,
             treatment_notes: treatment_notes,
             staff_id: staff_id,
-            treatment_date: treatment_date,
+            treatment_date: treatment_date
         }
 
         let result;

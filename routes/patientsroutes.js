@@ -1,6 +1,6 @@
 var express = require('express');
 const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin, GetPendingBillReport, GetCompletedBillReport } = require('../controllers/patientcontroller');
-const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport, GetSearchedLabTestReport, GetLabTestReportByPatient } = require('../controllers/treatment');
+const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport, GetSearchedLabTestReport, GetLabTestReportByPatient, GetAllTreatmentSummaryReport } = require('../controllers/treatment');
 var router = express.Router();
 var urlencodedParser = express.urlencoded({ extended: false });
 
@@ -38,6 +38,7 @@ router.get('/treatment/summary', GetTreatmentSummary);
 router.post('/treatment/labrequest', urlencodedParser, MakeLabRequests);
 router.get('/treatment/labrequest/approve', ApproveTests);
 router.get('/treatment/report', GetTreatmentReport);
+router.get('/treatment/report/all', GetAllTreatmentSummaryReport);
 
 //lab
 router.get('/lab/tests/cost', GetTestCost);

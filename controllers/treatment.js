@@ -109,7 +109,6 @@ exports.GetTreatmentSummary = async function(req, res, next) {
     } catch (error) {
         console.log(error);
     }
-    
 }
 
 exports.MakeLabRequests = async function(req, res) {
@@ -161,6 +160,28 @@ exports.GetTreatmentReport = async function(req, res, next) {
     }
     
 }  
+
+//treatment summaries
+
+exports.GetAllTreatmentSummaryReport = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        if (errors.isEmpty) {
+            var result = await History.getAllTreatmentsSummaryReport();
+            if (result.length > 0) {
+                res.json({"message": "Treatment Details Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Treatment Details Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 //lab
 

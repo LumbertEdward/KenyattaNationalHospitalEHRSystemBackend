@@ -28,7 +28,7 @@ class Appointments{
             patient_id: patient_id,
             doctor_id: doctor_id,
             department_id: department_id,
-            treatment_id: treatment_id,
+            treatment_id: treatment_id.toString(),
             expired: "false",
             status: "pending"
         }
