@@ -18,6 +18,7 @@ class Appointments{
     async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id){
         
         const random = (Math.random() * 10000) + 100;
+        const treatment_id = (Math.random() * 1000) + 100;
 
         const appointmentDetails = {
             appointment_id: random.toString(),
@@ -27,6 +28,8 @@ class Appointments{
             patient_id: patient_id,
             doctor_id: doctor_id,
             department_id: department_id,
+            treatment_id: treatment_id,
+            expired: "false",
             status: "pending"
         }
 

@@ -61,6 +61,7 @@ class Lab{
             test_cost: test_cost,
             test_results: test_results,
             lab_test_date: new Date(lab_test_date),
+            status: "complete"
         }
 
         let result;
@@ -81,11 +82,31 @@ class Lab{
         return result;
     }
 
-    async getLabTestReport(patient_id){
+    async getLabTestReport(){
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").find({patient_id: patient_id}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true", status: "complete"}).sort({last_review: -1});
+            const outPut = await data.toArray();
+            if (outPut.length > 0) {
+                result = outPut;
+            }
+            else{
+                result = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+
+    }
+
+    async getLabTestReportByPatient(patient_id){
+        let result;
+        try {
+            await this.connectToDb();
+            const data = await this.client.db("KNHDatabase").collection("lab").find({patient_id: patient_id, status: "complete"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -105,7 +126,7 @@ class Lab{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true", patient_id: patient_id}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true", patient_id: patient_id, status: "complete"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -125,7 +146,7 @@ class Lab{
         let result;
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true"}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("lab").find({test_status: "true", status: "incomplete"}).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;
@@ -159,11 +180,16 @@ class Lab{
         return result;
     }
 
-    async getSearchedLabTestsReport(){
+    async getSearchedLabTestsReport(startdate, enddate){
         let result;
+        const details = {
+            lab_test_date: {$lt: (new Date(enddate)), $gte: (new Date(startdate))},
+            test_status: "true",
+            status: "incomplete"
+        }
         try {
             await this.connectToDb();
-            const data = await this.client.db("KNHDatabase").collection("lab").find({lab_test_date: { $gte: new Date('25/9/2021')}}).sort({last_review: -1});
+            const data = await this.client.db("KNHDatabase").collection("lab").find(details).sort({last_review: -1});
             const outPut = await data.toArray();
             if (outPut.length > 0) {
                 result = outPut;

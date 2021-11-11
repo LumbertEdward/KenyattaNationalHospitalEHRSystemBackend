@@ -116,11 +116,12 @@ exports.MakeLabRequests = async function(req, res) {
     try {
         var errors = validationResult(req);
         var patient_id = req.body.patient_id;
+        var treatment_id = req.body.treatment_id;
         var staff_id = req.body.staff_id;
         var test_notes = req.body.test_notes;
         
         if (errors.isEmpty) {
-            var result = await Treatment.makeLabRequests(patient_id, staff_id, test_notes, test_results = "", test_cost = "", lab_test_date = "");
+            var result = await Treatment.makeLabRequests(patient_id, treatment_id, staff_id, test_notes, test_results = "", test_cost = "", lab_test_date = "");
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
