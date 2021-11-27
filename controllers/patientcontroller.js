@@ -307,7 +307,7 @@ exports.SetBill = async function(req, res) {
         var service_cost = req.body.service_cost;
         var service_department = req.body.service_department;
         var today = new Date();
-        var time = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear();
+        var time = today.getDate() + "/" + (today.getMonth() + 1) + "-" + today.getFullYear();
         var added_on = time;
         var added_by = req.body.added_by;
 

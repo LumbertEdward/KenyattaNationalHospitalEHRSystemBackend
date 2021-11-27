@@ -278,7 +278,7 @@ class Staff{
 
     async activateAccount(username){
         const today = new Date();
-        const date = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear();
+        const date = today.getDay() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
         let details;
         try {
             await this.connectToDb();
@@ -345,7 +345,7 @@ class Staff{
 
     async addNotification(receiver_id, sender_id, category, message, time, status = "unread"){
         const date = new Date();
-        const today = date.getDay() + "-" + date.getMonth() + "-" + date.getFullYear();
+        const today = date.getDay() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
         const details = {
             receiver_id: receiver_id,
             sender_id: sender_id,
@@ -398,7 +398,7 @@ class Staff{
     async addDepartment(department_name, added_by){
         const department_id = Math.random() * 1000000 + 1000;
         const today = new Date();
-        const added_on = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear();
+        const added_on = today.getDay() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
         let result;
 
         const details = {

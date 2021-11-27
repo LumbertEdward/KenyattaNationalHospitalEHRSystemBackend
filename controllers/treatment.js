@@ -68,7 +68,7 @@ exports.WriteTreatment = async function(req, res) {
         var treatment_id = req.body.treatment_id;
         var staff_id = req.body.staff_id;
         var today = new Date()
-        var treatment_date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
+        var treatment_date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
         
         if (errors.isEmpty) {
             var result = await Treatment.writeTreatment(patient_id, treatment_id, treatment_notes, staff_id, treatment_date);
@@ -285,7 +285,7 @@ exports.RecordTestResults = async function(req, res) {
         var test_cost = req.query.test_cost;
         var test_results = req.query.test_results;
         var today = new Date()
-        var lab_test_date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
+        var lab_test_date = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear()
         
         if (errors.isEmpty) {
             var result = await Lab.recordTestResults(lab_test_id, test_cost, test_results, lab_test_date);
@@ -623,6 +623,8 @@ exports.IssueDrugs = async function(req, res) {
     try {
         var errors = validationResult(req);
         var drug_id = req.query.drug_id;
+
+        console.log(drug_id);
         
         if (errors.isEmpty) {
             var result = await Drug.issueDrugs(drug_id);

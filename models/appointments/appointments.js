@@ -267,7 +267,7 @@ class Appointments{
         const random = Math.random() * 1000000 + 1000;
 
         const availability = {
-            _id: random,
+            _id: random.toString(),
             doctor_id: doctor_id,
             date: date,
             slots: slots,
