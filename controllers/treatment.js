@@ -95,8 +95,29 @@ exports.GetTreatmentSummary = async function(req, res, next) {
         var errors = validationResult(req);
         var treatment_id = req.query.treatment_id;
         if (errors.isEmpty) {
-            var result = await patient.getTreatmentSummary(treatment_id);
+            var result = await Treatment.getTreatmentSummary(treatment_id);
             if (result.patient_id != null) {
+                res.json({"message": "Treatment Details Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Treatment Details Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetTreatmentSummaryByPatient = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var patient_id = req.query.patient_id;
+        if (errors.isEmpty) {
+            var result = await Treatment.getTreatmentSummaryByPatient(patient_id);
+            if (result.length > 0) {
                 res.json({"message": "Treatment Details Found", "data": result});
             }
             else{

@@ -57,7 +57,7 @@ exports.LoginStaff = async function(req, res, next) {
 
         if (errors.isEmpty) {
             const result = await Staff.loginStaff(username, password);
-            if (result._id != null) {
+            if (result.password != "") {
                 res.json({"message": "Found", "data": result});
             }
             else{
@@ -97,10 +97,11 @@ exports.EditStaffDetails = async function(req, res) {
         var lastname = req.query.lastname;
         var residence = req.query.residence;
         var country = req.query.country;
-        var county = req.body.county;
+        var county = req.query.county;
+        var password = req.query.password;
 
         if (errors.isEmpty) {
-            var result = await Staff.EditStaffProfile(national_id, username, firstname, lastname, residence, country, county);
+            var result = await Staff.EditStaffProfile(national_id, username, firstname, lastname, residence, country, county, password);
             if (result == true) {
                 res.json({"message": "Updated Successfully"});
             }

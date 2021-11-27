@@ -99,6 +99,8 @@ class Staff{
         }
 
         let details;
+        let userPassword;
+        let userDetails;
         try {
             await this.connectToDb();
             const pat = await this.client.db("KNHDatabase").collection("staff").findOne(staffDetails);
@@ -109,18 +111,22 @@ class Staff{
                     if (updateToken) {
                         const final = await this.client.db("KNHDatabase").collection("staff").findOne({_id: pat._id});
                         if (final) {
+                            userPassword = password;
                             details = final;
                         }
                     }
                     else{
+                        userPassword = "";
                         details = {};
                     }
                 }
                 else{
+                    userPassword = "";
                     details = {};
                 } 
             }
             else{
+                userPassword = "";
                 details = {};
             }
 
@@ -128,7 +134,9 @@ class Staff{
             console.log(error);
         }
 
-        return details;
+        userDetails = {"details": details, "password": userPassword};
+
+        return userDetails;
     }
 
     async getStaffDetails(national_id){
@@ -154,15 +162,20 @@ class Staff{
         return details;
     }
 
-    async EditStaffProfile(national_id, username, firstname, lastname, residence, country, county){
+    async EditStaffProfile(national_id, username, firstname, lastname, residence, country, county, password){
+        const encryptedpassword = await bcrypt.hash(password, 10);
+
         const staffDetails = {
             firstname: firstname,
             lastname: lastname,
             username: username,
             residence: residence,
             country: country,
-            county: county
+            county: county,
+            password: encryptedpassword
         }
+
+        console.log(staffDetails)
 
         let details;
         try {

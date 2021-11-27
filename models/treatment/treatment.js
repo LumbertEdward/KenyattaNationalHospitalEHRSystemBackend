@@ -91,11 +91,31 @@ class Treatment{
         
     }
 
-    async getTreatmentSummary(treatment_id){
+    async getTreatmentSummaryByPatient(patient_id){
         let treatment;
         try {
             await this.connectToDb();
-            const result = await this.client.db("KNHDatabase").collection("treatment").findOne({_id: treatment_id});
+            const result = await this.client.db("KNHDatabase").collection("treatment").find({patient_id: patient_id}).sort({last_review: -1});
+            const outP = await result.toArray()
+            if (outP.length > 0) {
+                treatment = outP;
+            }
+            else{
+                treatment = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return treatment;
+
+    }
+
+    async getTreatmentSummary(case_id){
+        let treatment;
+        try {
+            await this.connectToDb();
+            const result = await this.client.db("KNHDatabase").collection("treatment").findOne({_id: case_id});
             if (result.patient_id != null) {
                 treatment = result;
             }
