@@ -131,9 +131,9 @@ class Staff{
         return details;
     }
 
-    async getStaffDetails(username){
+    async getStaffDetails(national_id){
         const staffDetails = {
-            username: username,
+            national_id: national_id,
         }
 
         let details;
@@ -154,17 +154,20 @@ class Staff{
         return details;
     }
 
-    async EditStaffProfile(username, firstname, lastname, residence){
+    async EditStaffProfile(national_id, username, firstname, lastname, residence, country, county){
         const staffDetails = {
             firstname: firstname,
             lastname: lastname,
+            username: username,
             residence: residence,
+            country: country,
+            county: county
         }
 
         let details;
         try {
             await this.connectToDb();
-            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({username: username}, {$set: staffDetails});
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({national_id: national_id}, {$set: staffDetails});
             if (pat.modifiedCount > 0) {
                 details = true;
             }
@@ -340,13 +343,16 @@ class Staff{
 
     //notifications
 
-    async addNotification(receiver_username, sender_username, category, message, time, status = "unread"){
+    async addNotification(receiver_id, sender_id, category, message, time, status = "unread"){
+        const date = new Date();
+        const today = date.getDay() + "-" + date.getMonth() + "-" + date.getFullYear();
         const details = {
-            receiver_username: receiver_username,
-            sender_username: sender_username,
+            receiver_id: receiver_id,
+            sender_id: sender_id,
             category: category,
             message: message,
             time: time,
+            today: today,
             status: status
         }
 
@@ -372,7 +378,7 @@ class Staff{
         let details;
         try {
             await this.connectToDb();
-            var foundList = await this.client.db("KNHDatabase").collection("notifications").find({receiver_username: id}).sort({last_review: -1});
+            var foundList = await this.client.db("KNHDatabase").collection("notifications").find({receiver_id: id}).sort({last_review: -1});
             var data = await foundList.toArray();
             if (data.length > 0) {
                 details = data;
@@ -384,6 +390,75 @@ class Staff{
         } catch (error) {
             console.log(error);
         }
+        return details;
+    }
+
+    //department
+
+    async addDepartment(department_name, added_by){
+        const department_id = Math.random() * 1000000 + 1000;
+        const today = new Date();
+        const added_on = today.getDay() + "-" + today.getMonth() + "-" + today.getFullYear();
+        let result;
+
+        const details = {
+            department_id: department_id.toString(),
+            department_name: department_name,
+            added_by: added_by,
+            added_on: added_on
+        }
+
+        try {
+            await this.connectToDb();
+            const outPut = await this.client.db("KNHDatabase").collection("department").insertOne(details);
+            if (outPut.insertedId != null) {
+                result = true;
+            }
+            else{
+                result = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return result;
+    }
+
+    async getDepartments(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("department").find().sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0){
+                details = result;
+            }
+            else{
+                details = [];
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
+    async getDepartmentById(department_id){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("department").findOne({department_id: department_id});
+            if (foundList._id != null){
+                details = foundList;
+            }
+            else{
+                details = {};
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
         return details;
     }
 }

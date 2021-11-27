@@ -3,7 +3,7 @@ const LabController = require('../models/treatment/lab');
 const HistoryController = require('../models/treatment/medicationhistory');
 const DrugController = require('../models/treatment/drugdispensing');
 const { validationResult } = require('express-validator');
-const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb://127.0.0.1:27017";
 const Treatment = new TreatmentController(uri);
 const Lab = new LabController(uri);
 const History = new HistoryController(uri);
@@ -63,12 +63,12 @@ exports.GetMetrics = async function(req, res) {
 exports.WriteTreatment = async function(req, res) {
     try {
         var errors = validationResult(req);
-        var patient_id = req.params.patient_id;
+        var patient_id = req.body.patient_id;
         var treatment_notes = req.body.treatment_notes;
         var treatment_id = req.body.treatment_id;
         var staff_id = req.body.staff_id;
         var today = new Date()
-        var treatment_date = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear()
+        var treatment_date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
         
         if (errors.isEmpty) {
             var result = await Treatment.writeTreatment(patient_id, treatment_id, treatment_notes, staff_id, treatment_date);
@@ -118,9 +118,10 @@ exports.MakeLabRequests = async function(req, res) {
         var treatment_id = req.body.treatment_id;
         var staff_id = req.body.staff_id;
         var test_notes = req.body.test_notes;
+        var lab_technician_id = req.body.lab_technician_id;
         
         if (errors.isEmpty) {
-            var result = await Treatment.makeLabRequests(patient_id, treatment_id, staff_id, test_notes, test_results = "", test_cost = "", lab_test_date = "");
+            var result = await Treatment.makeLabRequests(lab_technician_id, patient_id, treatment_id, staff_id, test_notes, test_results = "", test_cost = "", lab_test_date = "");
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
@@ -168,6 +169,50 @@ exports.GetAllTreatmentSummaryReport = async function(req, res, next) {
         var errors = validationResult(req);
         if (errors.isEmpty) {
             var result = await History.getAllTreatmentsSummaryReport();
+            if (result.length > 0) {
+                res.json({"message": "Treatment Details Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Treatment Details Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetAllTreatmentSummaryReportByDates = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var startdate = req.query.startdate;
+        var enddate = req.query.enddate;
+        
+        if (errors.isEmpty) {
+            var result = await History.getAllTreatmentsSummaryReportByDates(startdate, enddate);
+            if (result.length > 0) {
+                res.json({"message": "Treatment Details Found", "data": result});
+            }
+            else{
+                res.json({"message": "No Treatment Details Found"});
+            }
+        }
+        else{
+            console.log(errors.array());
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetAllTreatmentSummaryReportByPatient = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var patient_id = req.query.patient_id;
+        if (errors.isEmpty) {
+            var result = await History.getAllTreatmentsSummaryReportByPatient(patient_id);
             if (result.length > 0) {
                 res.json({"message": "Treatment Details Found", "data": result});
             }
@@ -240,7 +285,7 @@ exports.RecordTestResults = async function(req, res) {
         var test_cost = req.query.test_cost;
         var test_results = req.query.test_results;
         var today = new Date()
-        var lab_test_date = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear()
+        var lab_test_date = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear()
         
         if (errors.isEmpty) {
             var result = await Lab.recordTestResults(lab_test_id, test_cost, test_results, lab_test_date);
@@ -419,11 +464,15 @@ exports.AddDrugs = async function(req, res) {
     try {
         var errors = validationResult(req);
         var drug_name = req.body.drug_name
+        var drug_description = req.body.drug_description
         var drug_cost = req.body.drug_cost
         var total = req.body.total
+        var buying_price = req.body.buying_price
+        var expiry_date = req.body.expiry_date
+        var staff_id = req.body.staff_id
         
         if (errors.isEmpty) {
-            var result = await Drug.addDrugs(drug_name, drug_cost, total);
+            var result = await Drug.addDrugs(drug_name, drug_cost, total, buying_price, drug_description, expiry_date, staff_id);
             if (result == true) {
                 res.json({"message": "Inserted Successfully"});
             }
@@ -457,6 +506,86 @@ exports.GetDrugs = async function(req, res, next) {
     
 }
 
+//edit drug
+exports.EditDrugs = async function(req, res) {
+    try {
+        var errors = validationResult(req);
+        var drug_name = req.body.drug_name
+        var drug_description = req.body.drug_description
+        var drug_cost = req.body.drug_cost
+        var total = req.body.total
+        var buying_price = req.body.buying_price
+        var expiry_date = req.body.expiry_date
+        var drug_id = req.body.drug_id
+        
+        if (errors.isEmpty) {
+            var result = await Drug.editDrugs(drug_name, drug_cost, total, buying_price, drug_description, expiry_date, drug_id);
+            if (result == true) {
+                res.json({"message": "Edited Successfully"});
+            }
+            else{
+                res.json({"message": "Not Edited"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+        
+    } 
+    catch (error) {
+        console.log(error);
+    }
+}
+
+//search drug
+exports.SearchDrugs = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var drug_id = req.query.drug_id
+
+        if (errors.isEmpty) {
+            var result = await Drug.getDrug(drug_id);
+            if (result != {}) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
+
+exports.DeleteDrugs = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var drug_id = req.query.drug_id
+
+        if (errors.isEmpty) {
+            var result = await Drug.deleteDrug(drug_id);
+            if (result == true) {
+                res.json({"message": "Deleted", "data": result});
+            }
+            else{
+                res.json({"message": "Not Deleted"});
+            }
+        }
+        else{
+            res.json({error: errors.array()});
+            console.log(errors);
+        }
+    } catch (error) {
+        console.log(error);
+    }
+    
+}
 
 //prescription
 

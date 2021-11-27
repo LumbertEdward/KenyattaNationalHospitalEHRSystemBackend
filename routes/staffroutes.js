@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { RegisterStaff, EditStaffDetails, LoginStaff, DeleteStaffById, AllStaff, AddNotifications, GetNotifications, ActivateAccount, SuspendAccount, DeactivateAccount, AllPendingStaff, AllSuspendedStaff, AllActivatedStaff, GetStaffDetails } = require('../controllers/staffcontroller');
+const { RegisterStaff, EditStaffDetails, LoginStaff, DeleteStaffById, AllStaff, AddNotifications, GetNotifications, ActivateAccount, SuspendAccount, DeactivateAccount, AllPendingStaff, AllSuspendedStaff, AllActivatedStaff, GetStaffDetails, AddDepartment, GetDepartments, GetDepartmentById } = require('../controllers/staffcontroller');
 var urlencodedParser = express.urlencoded({ extended: false });
 
 //authentication
@@ -21,5 +21,10 @@ router.get('/accounts/activated', AllActivatedStaff);
 //notifications
 router.get('/addNotification', AddNotifications);
 router.get('/viewNotifications', GetNotifications);
+
+//department
+router.post("/department/add", urlencodedParser, AddDepartment);
+router.get("/department/all", GetDepartments);
+router.get("/department/all/:department_id", GetDepartmentById);
 
 module.exports = router;

@@ -1,7 +1,7 @@
 const PatientConnection = require('../models/Patient/account');
 const PatientQueueConnection = require('../models/Patient/patientqueue');
 const PatientBilling = require('../models/Patient/billing');
-const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb://127.0.0.1:27017";
 const patient = new PatientConnection(uri);
 const PatientQueue = new PatientQueueConnection(uri);
 const Bill = new PatientBilling(uri);
@@ -307,7 +307,7 @@ exports.SetBill = async function(req, res) {
         var service_cost = req.body.service_cost;
         var service_department = req.body.service_department;
         var today = new Date();
-        var time = today.getDate() + "/" + today.getMonth() + "/" + today.getFullYear();
+        var time = today.getDate() + "-" + today.getMonth() + "-" + today.getFullYear();
         var added_on = time;
         var added_by = req.body.added_by;
 

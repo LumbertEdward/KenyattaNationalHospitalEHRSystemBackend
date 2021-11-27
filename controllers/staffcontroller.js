@@ -1,6 +1,6 @@
 const { validationResult } = require('express-validator');
 const StaffConnection = require('../models/Staff/staff');
-const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb://127.0.0.1:27017";
 const Staff = new StaffConnection(uri);
 
 exports.RegisterStaff = async function(req, res) {
@@ -72,10 +72,10 @@ exports.LoginStaff = async function(req, res, next) {
 exports.GetStaffDetails = async function(req, res, next) {
     try {
         var errors = validationResult(req);
-        var username = req.query.username;
+        var national_id = req.query.national_id;
 
         if (errors.isEmpty) {
-            const result = await Staff.getStaffDetails(username);
+            const result = await Staff.getStaffDetails(national_id);
             if (result._id != null) {
                 res.json({"message": "Found", "data": result});
             }
@@ -91,13 +91,16 @@ exports.GetStaffDetails = async function(req, res, next) {
 exports.EditStaffDetails = async function(req, res) {
     try {
         var errors = validationResult(req);
+        var national_id = req.query.national_id;
         var username = req.query.username;
         var firstname = req.query.firstname;
         var lastname = req.query.lastname;
         var residence = req.query.residence;
+        var country = req.query.country;
+        var county = req.body.county;
 
         if (errors.isEmpty) {
-            var result = await Staff.EditStaffProfile(username, firstname, lastname, residence);
+            var result = await Staff.EditStaffProfile(national_id, username, firstname, lastname, residence, country, county);
             if (result == true) {
                 res.json({"message": "Updated Successfully"});
             }
@@ -272,14 +275,14 @@ exports.AddNotifications = async function(req, res, next) {
     try {
         var errors = validationResult(req);
         var message = req.query.message;
-        var sender_username = req.query.sender_username;
+        var sender_id = req.query.sender_id;
         var category = req.query.category;
-        var receiver_username = req.query.receiver_username;
+        var receiver_id = req.query.receiver_id;
         var today = new Date();
         var time = today.getHours() + ":" + today.getMinutes();
 
         if (errors.isEmpty) {
-            const result = await Staff.addNotification(receiver_username, sender_username, category, message, time);
+            const result = await Staff.addNotification(receiver_id, sender_id, category, message, time);
             if (result == true) {
                 res.json({"message": "Added"});
             }
@@ -300,6 +303,61 @@ exports.GetNotifications = async function(req, res, next) {
             var id = req.query.id;
             var result = await Staff.getNotificationById(id);
             if (result.length > 0) {
+                res.json({"message": "Found", "data": result});
+            }
+            else{
+                res.json({"message": "Not Found"});
+            }
+
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+//departments 
+
+exports.AddDepartment = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var department_name = req.body.department_name;
+        var added_by = req.body.added_by;
+
+        if (errors.isEmpty) {
+            const result = await Staff.addDepartment(department_name, added_by);
+            if (result == true) {
+                res.json({"message": "Added"});
+            }
+            else{
+                res.json({"message": "Not Added"});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetDepartments = async function(req, res, next) {
+    try {
+        var result = await Staff.getDepartments();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "Not Found"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.GetDepartmentById = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        if (errors.isEmpty) {
+            var department_id = req.params.department_id;
+            var result = await Staff.getDepartmentById(department_id);
+            if (result != {}) {
                 res.json({"message": "Found", "data": result});
             }
             else{

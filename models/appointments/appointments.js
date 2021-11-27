@@ -15,7 +15,7 @@ class Appointments{
         }
     }
 
-    async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id){
+    async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by){
         
         const random = (Math.random() * 10000) + 100;
         const treatment_id = (Math.random() * 1000) + 100;
@@ -25,6 +25,7 @@ class Appointments{
             appointment_reason: appointment_reason,
             appointment_due_date: appointment_due_date,
             appointment_created_date: appointment_created_date,
+            appointment_created_by: appointment_created_by,
             patient_id: patient_id,
             doctor_id: doctor_id,
             department_id: department_id,

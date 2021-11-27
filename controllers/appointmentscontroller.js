@@ -1,5 +1,5 @@
 const AppointmentsConnection = require('../models/appointments/appointments');
-const uri = "mongodb+srv://lumbert:mayoga%401990@cluster0.hebw5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb://127.0.0.1:27017";
 const Appointment = new AppointmentsConnection(uri);
 const { body,validationResult } = require('express-validator');
 
@@ -9,12 +9,13 @@ exports.AddAppointment = async function(req, res) {
         var appointment_reason = req.body.appointment_reason;
         var appointment_due_date = req.body.appointment_due_date;
         var appointment_created_date = req.body.appointment_created_date;
+        var appointment_created_by = req.body.appointment_created_by;
         var patient_id = req.body.patient_id;
         var doctor_id = req.body.doctor_id;
         var department_id = req.body.department_id; 
         
         if (errors.isEmpty) {
-            var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id);
+            var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by);
             if (result == true) {
                 res.json({"message": "Appointment Placed Successfully"});
             }

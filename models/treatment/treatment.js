@@ -97,10 +97,10 @@ class Treatment{
             await this.connectToDb();
             const result = await this.client.db("KNHDatabase").collection("treatment").findOne({_id: treatment_id});
             if (result.patient_id != null) {
-                department = result;
+                treatment = result;
             }
             else{
-                department = {};
+                treatment = {};
             }
         } catch (error) {
             console.log(error);
@@ -110,7 +110,7 @@ class Treatment{
 
     }
 
-    async makeLabRequests(patient_id, treatment_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "", test_status = "false"){
+    async makeLabRequests(lab_technician_id, patient_id, treatment_id, staff_id, test_name = "", test_results = "", test_cost = "", lab_test_date = "", test_status = "false"){
         
         const lab_test_id = (Math.random() * 2000) + 200;
         const details = {
@@ -123,6 +123,7 @@ class Treatment{
             test_results: test_results,
             lab_test_date: lab_test_date,
             test_status: test_status,
+            lab_technician_id: lab_technician_id,
             status: "incomplete",
             paid: "false"
         }
