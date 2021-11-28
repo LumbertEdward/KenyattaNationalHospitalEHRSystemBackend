@@ -1,5 +1,7 @@
+const MongoUrl = require('../middleware/baseUrl');
 const AppointmentsConnection = require('../models/appointments/appointments');
-const uri = "mongodb://127.0.0.1:27017";
+const url = new MongoUrl()
+const uri = url.getMongoUrl();
 const Appointment = new AppointmentsConnection(uri);
 const { body,validationResult } = require('express-validator');
 

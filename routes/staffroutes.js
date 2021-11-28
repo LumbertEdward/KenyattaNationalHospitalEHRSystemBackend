@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const { RegisterStaff, EditStaffDetails, LoginStaff, DeleteStaffById, AllStaff, AddNotifications, GetNotifications, ActivateAccount, SuspendAccount, DeactivateAccount, AllPendingStaff, AllSuspendedStaff, AllActivatedStaff, GetStaffDetails, AddDepartment, GetDepartments, GetDepartmentById } = require('../controllers/staffcontroller');
+const { RegisterStaff, EditStaffDetails, LoginStaff, DeleteStaffById, AllStaff, AddNotifications, GetNotifications, ActivateAccount, SuspendAccount, DeactivateAccount, AllPendingStaff, AllSuspendedStaff, AllActivatedStaff, GetStaffDetails, AddDepartment, GetDepartments, GetDepartmentById, UpdateStaffPassword } = require('../controllers/staffcontroller');
 var urlencodedParser = express.urlencoded({ extended: false });
 
 //authentication
@@ -10,6 +10,7 @@ router.get('/profile/edit', EditStaffDetails);
 router.get('/delete', DeleteStaffById);
 router.get('/all', AllStaff);
 router.get('/details', GetStaffDetails);
+router.get('/staff/password/update', UpdateStaffPassword)
 //accounts
 router.get('/activate', ActivateAccount);
 router.get('/suspend', SuspendAccount);

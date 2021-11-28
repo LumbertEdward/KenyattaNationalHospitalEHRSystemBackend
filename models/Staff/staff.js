@@ -139,6 +139,28 @@ class Staff{
         return userDetails;
     }
 
+    async updatePassword(national_id, password){
+        const encryptedpassword = await bcrypt.hash(password, 10);
+        let details;
+        try {
+            await this.connectToDb();
+            const pat = await this.client.db("KNHDatabase").collection("staff").updateOne({national_id: national_id}, {$set: {password: encryptedpassword}});
+            if (pat.modifiedCount > 0) {
+                console.log("success");
+                details = true;
+            }
+            else{
+                console.log("Not");
+                details = false;
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
     async getStaffDetails(national_id){
         const staffDetails = {
             national_id: national_id,

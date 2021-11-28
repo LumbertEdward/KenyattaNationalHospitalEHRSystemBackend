@@ -1,6 +1,8 @@
+const MongoUrl = require('../middleware/baseUrl');
 const { validationResult } = require('express-validator');
 const StaffConnection = require('../models/Staff/staff');
-const uri = "mongodb://127.0.0.1:27017";
+const url = new MongoUrl()
+const uri = url.getMongoUrl();
 const Staff = new StaffConnection(uri);
 
 exports.RegisterStaff = async function(req, res) {
@@ -62,6 +64,26 @@ exports.LoginStaff = async function(req, res, next) {
             }
             else{
                 res.json({"message": "Not Found"});
+            }
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+exports.UpdateStaffPassword = async function(req, res, next) {
+    try {
+        var errors = validationResult(req);
+        var national_id = req.query.national_id;
+        var password = req.query.password
+
+        if (errors.isEmpty) {
+            const result = await Staff.updatePassword(national_id, password);
+            if (result == true) {
+                res.json({"message": "Updated"});
+            }
+            else{
+                res.json({"message": "Not Updated"});
             }
         }
     } catch (error) {

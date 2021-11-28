@@ -1,7 +1,9 @@
+const MongoUrl = require('../middleware/baseUrl');
 const PatientConnection = require('../models/Patient/account');
 const PatientQueueConnection = require('../models/Patient/patientqueue');
 const PatientBilling = require('../models/Patient/billing');
-const uri = "mongodb://127.0.0.1:27017";
+const url = new MongoUrl()
+const uri = url.getMongoUrl();
 const patient = new PatientConnection(uri);
 const PatientQueue = new PatientQueueConnection(uri);
 const Bill = new PatientBilling(uri);

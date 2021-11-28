@@ -1,9 +1,11 @@
+const MongoUrl = require('../middleware/baseUrl');
 const TreatmentController = require('../models/treatment/treatment');
 const LabController = require('../models/treatment/lab');
 const HistoryController = require('../models/treatment/medicationhistory');
 const DrugController = require('../models/treatment/drugdispensing');
 const { validationResult } = require('express-validator');
-const uri = "mongodb://127.0.0.1:27017";
+const url = new MongoUrl()
+const uri = url.getMongoUrl();
 const Treatment = new TreatmentController(uri);
 const Lab = new LabController(uri);
 const History = new HistoryController(uri);
@@ -644,11 +646,13 @@ exports.IssueDrugs = async function(req, res) {
     try {
         var errors = validationResult(req);
         var drug_id = req.query.drug_id;
+        var prescription_id = req.query.prescription_id
+        var quantity = req.query.quantity
 
         console.log(drug_id);
         
         if (errors.isEmpty) {
-            var result = await Drug.issueDrugs(drug_id);
+            var result = await Drug.issueDrugs(prescription_id, drug_id, quantity);
             if (result == true) {
                 res.json({"message": "Updated Successfully"});
             }
