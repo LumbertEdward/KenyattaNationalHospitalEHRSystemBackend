@@ -15,9 +15,10 @@ exports.AddAppointment = async function(req, res) {
         var patient_id = req.body.patient_id;
         var doctor_id = req.body.doctor_id;
         var department_id = req.body.department_id; 
+        var availability_id = req.body.availability_id;
         
         if (errors.isEmpty) {
-            var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by);
+            var result = await Appointment.placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by, availability_id);
             if (result == true) {
                 res.json({"message": "Appointment Placed Successfully"});
             }

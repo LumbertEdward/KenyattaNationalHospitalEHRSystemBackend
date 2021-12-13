@@ -15,7 +15,7 @@ class Appointments{
         }
     }
 
-    async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by){
+    async placeAppointment(appointment_reason, appointment_due_date, appointment_created_date, patient_id, doctor_id, department_id, appointment_created_by, availability_id){
         
         const random = (Math.random() * 10000) + 100;
         const treatment_id = (Math.random() * 1000) + 100;
@@ -37,9 +37,26 @@ class Appointments{
         let details;
         try {
             await this.connectToDb();
-            const pat = await this.client.db("KNHDatabase").collection("appointment").insertOne(appointmentDetails);
-            if (pat.insertedId != null) {
-                details = true;
+            var foundAvailability = await this.client.db("KNHDatabase").collection("availability").findOne({_id: availability_id});
+            if (foundAvailability != {}) {
+                if (parseInt(foundAvailability.slots) > 0) {
+                    const pat = await this.client.db("KNHDatabase").collection("appointment").insertOne(appointmentDetails);
+                    if (pat.insertedId != null) {
+                        var changedSlots = await this.client.db("KNHDatabase").collection("availability").updateOne({_id: availability_id}, {$set: {slots: (parseInt(foundAvailability.slots) - 1).toString()}});
+                        if (changedSlots.modifiedCount > 0) {
+                            details = true;
+                        }
+                        else{
+                            details = false;
+                        }
+                    }
+                    else{
+                        details = false;
+                    }
+                }
+                else{
+                    details = false;
+                }
             }
             else{
                 details = false;
@@ -300,7 +317,13 @@ class Appointments{
             var foundList = await this.client.db("KNHDatabase").collection("availability").find().sort({last_review: -1});
             var result = await foundList.toArray();
             if (result.length > 0) {
-                details = result;
+                let finls = []
+                for (let index = 0; index < result.length; index++) {
+                    if (parseInt(result[index].slots) > 0) {
+                        finls.push(result[index])
+                    }
+                }
+                details = finls;
             }
             else{
                 details = [];
@@ -319,7 +342,13 @@ class Appointments{
             var foundList = await this.client.db("KNHDatabase").collection("availability").find({date: date}).sort({last_review: -1});
             var result = await foundList.toArray();
             if (result.length > 0) {
-                details = result;
+                let finls = []
+                for (let index = 0; index < result.length; index++) {
+                    if (parseInt(result[index].slots) > 0) {
+                        finls.push(result[index])
+                    }
+                }
+                details = finls;
             }
             else{
                 details = [];

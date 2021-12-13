@@ -1,5 +1,5 @@
 var express = require('express');
-const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin, GetPendingBillReport, GetCompletedBillReport } = require('../controllers/patientcontroller');
+const { RegisterPatient, ViewPatients, CheckPatientByName, CheckPatientById, EditPatientProfile, DeletePatientById, AddPatientInQueue, GetPatientsInQueue, GetPatientsInQueueByDoctor, GetPatientsInQueueBYDepartment, RemovePatientFromQueue, PayBill, GetBillTotal, GetServiceDepartment, GetBillReport, SetBill, RegisterNextOfKin, GetPendingBillReport, GetCompletedBillReport, MakeStripePayment } = require('../controllers/patientcontroller');
 const { SendPayment } = require('../controllers/paymentcontroller');
 const { RecordMetrics, GetMetrics, WriteTreatment, GetTreatmentSummary, MakeLabRequests, GetTreatmentReport, GetTestCost, RecordTestResults, GetLabTestReport, GetRequestedLabTests, GetTreatmentHistorySummary, VisitSummary, PrescribeDrugs, IssueDrugs, GetPrescribedDrugs, GetPrescribedDrugsByPatient, GetDrugDispensingReport, GetDrugDispensingReportByPatient, GetRequestedPatientLabResult, ApproveTests, GetApprovedRequestedLabTests, AddDrugs, GetDrugs, SetCancelledPrescription, GetCancelledDispensingReport, GetSearchedLabTestReport, GetLabTestReportByPatient, GetAllTreatmentSummaryReport, GetAllTreatmentSummaryReportByPatient, GetAllTreatmentSummaryReportByDates, SearchDrugs, EditDrugs, DeleteDrugs, GetTreatmentSummaryByPatient } = require('../controllers/treatment');
 var router = express.Router();
@@ -32,7 +32,7 @@ router.get('/billing/pendingbills/report/all', GetPendingBillReport);
 router.get('/billing/completedbills/report/all', GetCompletedBillReport);
 
 //stripe
-router.post('/create-checkout-session', urlencodedParser, SendPayment)
+router.post('/create-checkout-session', MakeStripePayment)
 
 //treatment
 router.post('/metrics/add', urlencodedParser, RecordMetrics);

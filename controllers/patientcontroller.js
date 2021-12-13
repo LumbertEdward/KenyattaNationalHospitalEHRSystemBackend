@@ -8,6 +8,10 @@ const patient = new PatientConnection(uri);
 const PatientQueue = new PatientQueueConnection(uri);
 const Bill = new PatientBilling(uri);
 const { body,validationResult } = require('express-validator');
+const { v4: uuidv4 } = require('uuid');
+require('dotenv').config()
+// This is your test secret API key.
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 
 exports.RegisterPatient = async function(req, res) {
     try {
@@ -325,6 +329,28 @@ exports.SetBill = async function(req, res) {
     } catch (error) {
         console.log(errors);
     }
+}
+
+exports.MakeStripePayment = async function(req, res) {
+    const { product, token } = req.body;
+    const idempotencyKey = uuidv4()
+
+    return stripe.customers.create({
+        email: token.email,
+        source: token.id
+    })
+    .then(customer => {
+        stripe.charges.create({
+        customer: customer.id, // set the customer id
+        amount: product.amount * 100, // 25
+        currency: 'usd',
+        receipt_email: token.email,
+        description: 'Payments',
+        }, {idempotencyKey})
+    })
+    .then(result => res.status(200).json(result))
+    .catch(error => console.error(error));
+    
 }
 
 exports.PayBill = async function(req, res) {
