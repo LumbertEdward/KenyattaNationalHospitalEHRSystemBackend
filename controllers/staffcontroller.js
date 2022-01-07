@@ -106,6 +106,7 @@ exports.GetStaffDetails = async function(req, res, next) {
             }
         }
     } catch (error) {
+        res.json({"message": "Not Found"});
         console.log(error);
     }
 }

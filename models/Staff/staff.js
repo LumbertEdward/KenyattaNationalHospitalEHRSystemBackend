@@ -170,7 +170,7 @@ class Staff{
         try {
             await this.connectToDb();
             const pat = await this.client.db("KNHDatabase").collection("staff").findOne(staffDetails);
-            if (pat._id != null) {
+            if (pat != null) {
                 details = pat;
             }
             else{
@@ -178,6 +178,7 @@ class Staff{
             }
 
         } catch (error) {
+            details = {};
             console.log(error);
         }
 
