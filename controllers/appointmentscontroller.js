@@ -227,6 +227,20 @@ exports.GetApprovedAppointments = async function(req, res, next) {
     }
 }
 
+exports.GetCancelledAppointments = async function(req, res, next) {
+    try {
+        var result = await Appointment.getCancelledAppointments();
+        if (result.length > 0) {
+            res.json({"message": "Found", "data": result});
+        }
+        else{
+            res.json({"message": "No data"});
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 exports.GetPendingAppointments = async function(req, res, next) {
     try {
         var result = await Appointment.getPendingAppointments();

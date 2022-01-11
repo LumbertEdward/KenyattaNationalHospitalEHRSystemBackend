@@ -37,12 +37,12 @@ class Appointments{
         let details;
         try {
             await this.connectToDb();
-            var foundAvailability = await this.client.db("KNHDatabase").collection("availability").findOne({_id: availability_id});
+            var foundAvailability = await this.client.db("KNHDatabase").collection("availability").findOne({doctor_id: availability_id});
             if (foundAvailability != {}) {
                 if (parseInt(foundAvailability.slots) > 0) {
                     const pat = await this.client.db("KNHDatabase").collection("appointment").insertOne(appointmentDetails);
                     if (pat.insertedId != null) {
-                        var changedSlots = await this.client.db("KNHDatabase").collection("availability").updateOne({_id: availability_id}, {$set: {slots: (parseInt(foundAvailability.slots) - 1).toString()}});
+                        var changedSlots = await this.client.db("KNHDatabase").collection("availability").updateOne({doctor_id: availability_id}, {$set: {slots: (parseInt(foundAvailability.slots) - 1).toString()}});
                         if (changedSlots.modifiedCount > 0) {
                             details = true;
                         }
@@ -245,6 +245,25 @@ class Appointments{
         try {
             await this.connectToDb();
             var foundList = await this.client.db("KNHDatabase").collection("appointment").find({status: "pending"}).sort({last_review: -1});
+            var result = await foundList.toArray();
+            if (result.length > 0) {
+                details = result;
+            }
+            else{
+                details = [];
+            }
+
+        } catch (error) {
+            console.log(error);
+        }
+        return details;
+    }
+
+    async getCancelledAppointments(){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("appointment").find({status: "cancelled"}).sort({last_review: -1});
             var result = await foundList.toArray();
             if (result.length > 0) {
                 details = result;
