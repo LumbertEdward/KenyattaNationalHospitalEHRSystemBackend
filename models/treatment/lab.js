@@ -60,7 +60,7 @@ class Lab{
         const details = {
             test_cost: test_cost,
             test_results: test_results,
-            lab_test_date: new Date(lab_test_date),
+            lab_test_date: lab_test_date,
             status: "complete"
         }
 

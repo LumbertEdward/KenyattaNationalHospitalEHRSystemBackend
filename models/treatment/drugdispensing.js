@@ -18,7 +18,7 @@ class DrugDispensing{
     async addDrugs(drug_name, drug_cost, total, buying_price, drug_description, expiry_date, staff_id){
         const random = Math.random() * 1000000 + 1000;
         const date = new Date();
-        const today = date.getDay() + "-" + date.getMonth() + "-" + date.getFullYear();
+        const today = date.getDay() + "/" + date.getMonth() + "/" + date.getFullYear();
 
         const details = {
             _id: random.toString(),
