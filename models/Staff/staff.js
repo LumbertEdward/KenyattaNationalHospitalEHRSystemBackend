@@ -40,7 +40,7 @@ class Staff{
             added_on: added_on,
             added_by: added_by,
             token: "",
-            status: "pending"
+            status: username.toLowerCase() == "admin" ? "activated" : "pending"
         }
 
         
@@ -439,7 +439,7 @@ class Staff{
 
         const details = {
             department_id: department_id.toString(),
-            department_name: department_name,
+            department_name: `${department_name.charAt(0).toUpperCase() + department_name.slice(1)}`,
             added_by: added_by,
             added_on: added_on
         }
@@ -490,6 +490,24 @@ class Staff{
             }
             else{
                 details = {};
+            }
+        } catch (error) {
+            console.log(error);
+        }
+
+        return details;
+    }
+
+    async getDepartmentByName(department_name){
+        let details;
+        try {
+            await this.connectToDb();
+            var foundList = await this.client.db("KNHDatabase").collection("department").findOne({department_name: `${department_name.charAt(0).toUpperCase() + department_name.slice(1)}`});
+            if (foundList != null){
+                details = foundList;
+            }
+            else{
+                details = null;
             }
         } catch (error) {
             console.log(error);

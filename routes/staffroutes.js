@@ -24,7 +24,7 @@ router.get('/addNotification', AddNotifications);
 router.get('/viewNotifications', GetNotifications);
 
 //department
-router.post("/department/add", urlencodedParser, AddDepartment);
+router.get("/department/add", urlencodedParser, AddDepartment);
 router.get("/department/all", GetDepartments);
 router.get("/department/all/:department_id", GetDepartmentById);
 

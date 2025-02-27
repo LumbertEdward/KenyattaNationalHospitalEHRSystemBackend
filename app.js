@@ -10,6 +10,7 @@ var usersRouter = require('./routes/users');
 var patientsRouter = require('./routes/patientsroutes');
 var staffroutes = require('./routes/staffroutes');
 var appointmentsroutes = require('./routes/appointmentsroutes');
+var {ProjectSetUp} = require('./controllers/staffcontroller')
 
 var app = express();
 
@@ -25,6 +26,10 @@ app.use(cookieParser());
 app.use('/public/images/', express.static('./public/images'));
 app.use(cors());
 app.use(logger('dev'));
+
+//startup
+
+ProjectSetUp()
 
 app.use('/', usersRouter);
 app.use('/KNH/patient', patientsRouter);

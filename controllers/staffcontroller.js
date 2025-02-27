@@ -393,3 +393,25 @@ exports.GetDepartmentById = async function(req, res, next) {
         console.log(error);
     }
 }
+
+// PROJECT SETUP
+
+exports.ProjectSetUp = async function(req, res, next) {
+    try {
+        var result = await Staff.getDepartmentByName("Nursing");
+        if (result == null) {
+            const department = await Staff.addDepartment("Nursing", null);
+            if (department == true) {
+                console.log(":::::DEPARTMENT ADDED SUCCESSFULLY::::::")
+            }
+            else{
+                console.log(":::::DEPARTMENT NOT ADDED::::::");
+            }
+        }
+        else{
+            console.log(":::::DEPARTMENT EXISTS::::::");
+        }
+    } catch (error) {
+        console.log(error);
+    }
+}
